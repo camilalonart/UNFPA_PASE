@@ -25,7 +25,7 @@ export default function Home() {
                         <img alt="complex" src={Logo} style={{ display: 'block', marginTop:"15%", marginBottom:"15%", maxWidth: '55%',minWidth: '45%', marginLeft:'30%',marginRight:'30%'}}/>
                     </Grid>
                     <Grid  item xs={12} >
-                        <Link href="/tensiones/crear/" to={`/tensiones/crear/`}  style={{ textDecoration: 'none' }}>
+                        <Link href="/crear/tension" to={`/crear/tension`}  style={{ textDecoration: 'none' }}>
                             <Paper style={{ padding: 12, position: "relative", borderRadius: 5, marginLeft:30,marginRight:30}} elevation={3}>
                                 <Grid container alignItems="center" justify="space-between" wrap="nowrap">
                                     <Grid item sm={2} xs={5}>
@@ -42,7 +42,7 @@ export default function Home() {
                         </Link> 
                     </Grid> 
                     <Grid  item xs={12} >
-                        <Link href="/admin/home" to={`/admin/home`}  style={{ textDecoration: 'none' }}>
+                        <Link href="/admin/model" to={`/admin/model`}  style={{ textDecoration: 'none' }}>
                             <Paper style={{ padding: 12, position: "relative", borderRadius: 5, marginLeft:30,marginRight:30}} elevation={3}>
                                 <Grid container alignItems="center" justify="space-between" wrap="nowrap">
                                     <Grid item sm={2} xs={5}>
@@ -60,7 +60,7 @@ export default function Home() {
                     </Grid> 
                     
                     <Grid item>
-                        <Link href="/dashboardModel/" to={`/dashboardModel/`} style={{ textDecoration: 'none' }}>
+                        <Link href="/admin/dashboardModel" to={`/admin/dashboardModel`} style={{ textDecoration: 'none' }}>
                             <Paper style={{ padding: 12, position: "relative", borderRadius: 5, marginLeft:30,marginRight:30}} elevation={3}>
                                 <Grid container alignItems="center" justify="space-between" wrap="nowrap">
                                     <Grid item sm={2} xs={5}>
@@ -78,7 +78,7 @@ export default function Home() {
                     </Grid>
 
                     <Grid item>
-                        <Link href="/dashboardPerTopic/" to={`/dashboardPerTopic/`} style={{ textDecoration: 'none' }}>
+                        <Link href="/admin/dashboardTopics" to={`/admin/dashboardTopics`} style={{ textDecoration: 'none' }}>
                             <Paper style={{ padding: 12, position: "relative", borderRadius: 5, marginLeft:30,marginRight:30}} elevation={3}>
                                 <Grid container alignItems="center" justify="space-between" wrap="nowrap">
                                     <Grid item sm={2} xs={5}>

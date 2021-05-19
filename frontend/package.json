@@ -18,6 +18,7 @@
     "chartist": "0.10.1",
     "classnames": "2.2.6",
     "history": "4.10.1",
+    "material-ui-rating": "^4.2.0",
     "moment": "^2.29.1",
     "perfect-scrollbar": "1.5.0",
     "prop-types": "15.7.2",

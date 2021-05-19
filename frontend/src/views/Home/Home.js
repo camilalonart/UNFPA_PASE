@@ -7,52 +7,21 @@ import Radio from '@material-ui/core/Radio';
 import Select from '@material-ui/core/Select';
 import FormControl from '@material-ui/core/FormControl';
 
-// @material-ui/pickers
-import MomentUtils from '@date-io/moment';
-import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker,
-} from '@material-ui/pickers';
-
 import { Link } from "react-router-dom";
 
-import Logo from '../../images/Home/UnfpaLogo.png'; 
-import Lorenz from '../../images/Home/Lorenz.png'; 
-import Analitica from "../../images/Home/Analitica.png";
-import Tensiones from "../../images/Home/Tensiones.png";
-import Topicos from "../../images/Home/Topicos.png";
-import TopicGeneral from "../../images/Home/TopicGeneral.png";
-// @material-ui/icons
-import VerifiedUserRounded from "@material-ui/icons/VerifiedUserSharp";
-import InfoIcon from "@material-ui/icons/Info";
-import TopicsIcon from "@material-ui/icons/PermDataSetting";
-import CalendarIcon from "@material-ui/icons/DateRange";
-import ProfileIcon from "@material-ui/icons/SupervisedUserCircle";
-import Check from "@material-ui/icons/Check";
-import At from "@material-ui/icons/AlternateEmailSharp";
-import Spellcheck from "@material-ui/icons/Spellcheck";
-// core components
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
-import CustomTabs from "components/CustomTabs/CustomTabs.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
-import CardAvatar from "components/Card/CardAvatar.js";
 import CardBody from "components/Card/CardBody.js";
-import CardFooter from "components/Card/CardFooter.js";
-import SnackbarContent from "components/Snackbar/SnackbarContent.js";
 import CustomInput from "components/CustomInput/CustomInput.js";
 import Button from "components/CustomButtons/Button.js";
-// API Methods
-import { getUsers } from "../../API/TwitterAPI.js";
-
 import styles from "assets/jss/material-dashboard-react/views/dashboardStyle.js";
-import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
-import {Paper, Typography, Grid} from '@material-ui/core';
+import {Grid} from '@material-ui/core';
 
 const useStyles = makeStyles(styles);
 
-const renderInformationCard = (classes) => {
+const renderInformationCard = (parameters) => {
   return (
     <Grid>
         <br/>
@@ -61,9 +30,20 @@ const renderInformationCard = (classes) => {
         </p>  
         <br/>
         <p>
-         En el menú al costado izquierdo podrás acceder a los tableros de control con información y el espacio para llenar una matriz de tensiones.
+         En el menú al costado izquierdo podrás acceder a los tableros de control con información.
         </p>
         <br/>
+        <p>
+         PARAMETROS SELECCIONADOS:
+        </p>
+        <p>
+         - Número de temas: {parameters.numberOfTopics}
+        </p>
+        <p>
+         - Nombre de archivo: {parameters.file}
+        </p>
+        <br/>
+
     </Grid>
   );
 };
@@ -78,7 +58,7 @@ const renderParameterSelector = (onChange, handleFileChange, classes) => {
           </CardHeader>
           <CardBody>
           <CustomInput
-            labelText="Número de tópicos"
+            labelText="Número de temas"
             id="topicsNum"
             formControlProps={{
               fullWidth: true
@@ -101,13 +81,13 @@ const renderParameterSelector = (onChange, handleFileChange, classes) => {
           <FormControl variant="outlined" style = {{width:300}}>
               <Select
                 native
-                
-                onChange={handleFileChange}
                 inputProps={{
-                    name: "numberOfTopics",
-                    type: "number",
+                    name: "file",
+                    type: "string",
+                    onChange: onChange,
                 }}
                 >
+                <option value={''}></option>
                 <option value={'MedellinCleaned.xlsx'}>Medellín</option>
               </Select>
           </FormControl>
@@ -122,7 +102,9 @@ const renderParameterSelector = (onChange, handleFileChange, classes) => {
 const validParameters = (parameters) => {
   console.log(parameters);
   let numberOfTopics = Number(parameters.numberOfTopics);
+  let file = String(parameters.file);
   if(!numberOfTopics || numberOfTopics < 1 || numberOfTopics > 10) return false;
+  if(!file) return false;
   return true;
 };
 
@@ -151,7 +133,7 @@ export default function Home(props) {
         <CardBody>
         <GridContainer>
           <GridItem xs={12} sm={12} md={6}>
-            {renderInformationCard(classes)}
+            {renderInformationCard(parameters)}
           </GridItem>
           <GridItem xs={12} sm={12} md={6}>
             {renderParameterSelector(handleParameterChange, handleFileChange, classes)}
@@ -169,14 +151,16 @@ export default function Home(props) {
               </Link>
             </div>
             ) : (
-            <div></div>
+            <div>
+              <p>
+                No has ingresado información valida o te hace falta llenar campos...
+              </p>
+            </div>
             )}
           </GridItem>
           </GridContainer> 
         </CardBody>
       </Card>
-     
-      
     </div>
   );
 }

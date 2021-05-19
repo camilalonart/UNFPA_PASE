@@ -25,6 +25,7 @@ import HomePage from "./views/Home/Home.js";
 import DashboardGeneral from "views/Dashboards/Dashboard.js";
 import DashboardModel from "views/Dashboards/DashboardModel.js";
 import DashboardTopicDetail from "views/Dashboards/DashboardTopicDetail.js";
+import CrearTension from "views/MatrizTensiones/CrearTension.js";
 
 
 const dashboardRoutes = [
@@ -55,6 +56,13 @@ const dashboardRoutes = [
     icon: AppsIcon,
     component: DashboardTopicDetail,
     layout: "/admin",
+  },
+  {
+    path: "/crear/tension",
+    name: "Crear Tensión",
+    icon: AppsIcon,
+    component: CrearTension,
+    layout: "/",
   }
 ];
 

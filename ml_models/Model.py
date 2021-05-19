@@ -136,7 +136,7 @@ def storeGeneralInsight(df, odsData):
     jsonData['datosPorMes'] = datosEnLista
 
     json_result = json.dumps(jsonData, default=json_util.default)
-    with open('../client/src/ModelResults/generalResult.json', "w") as outfile:
+    with open('../frontend/src/ModelResults/generalResult.json', "w") as outfile:
         outfile.write(json_result)
     return jsonData  
 #-----------------------------------------------------------------------------------------------------
@@ -153,7 +153,7 @@ def sankeyFile(lda_model,numberOfTopics):
                     sankeyRow = ['Tema '+str(currTopic+1),word,int(weight*100)]
                     dataForSankey.append(sankeyRow)
     json_result = json.dumps(dataForSankey, default=json_util.default)
-    with open('../client/src/ModelResults/sankeyResult.json', "w") as outfile:
+    with open('../frontend/src/ModelResults/sankeyResult.json', "w") as outfile:
         outfile.write(json_result)
 #-----------------------------------------------------------------------------------------------------       
 def createDictForTopics(lda_model, numberOfTopics):
@@ -233,7 +233,7 @@ def topicData(lda_model,numberOfTopics,simmilarity, data_ready, moreInsights):
         moreDataPointer+=1
         i+=1
     json_result = json.dumps(json_data, default=json_util.default)
-    with open('../client/src/ModelResults/dataPerTopic.json', "w") as outfile:
+    with open('../frontend/src/ModelResults/dataPerTopic.json', "w") as outfile:
         outfile.write(json_result)
 #-----------------------------------------------------------------------------------------------------
 def getChord(frequency,simmilarity):
@@ -258,10 +258,10 @@ def getChord(frequency,simmilarity):
         if len(array) < 8: array = array + ([0]*(8-len(array)))
         chordData.append(array)
     json_result = json.dumps(chordData, default=json_util.default)
-    with open('../client/src/ModelResults/chordData.json', "w") as outfile:
+    with open('../frontend/src/ModelResults/chordData.json', "w") as outfile:
         outfile.write(json_result)
     json_result = json.dumps(nameData, default=json_util.default)
-    with open('../client/src/ModelResults/chordNames.json', "w") as outfile:
+    with open('../frontend/src/ModelResults/chordNames.json', "w") as outfile:
         outfile.write(json_result)
 #-----------------------------------------------------------------------------------------------------
 def swarnData(lda_model,numberOfTopics):
@@ -274,10 +274,10 @@ def swarnData(lda_model,numberOfTopics):
             topicsDictWords.append({"group":'Tema'+str(topic+1),"id":word,"value":int(value*100),"volume":int(value*100)})
         i+=1
     json_result = json.dumps(swarnNames, default=json_util.default)
-    with open('../client/src/ModelResults/swarnNames.json', "w") as outfile:
+    with open('../frontend/src/ModelResults/swarnNames.json', "w") as outfile:
         outfile.write(json_result)
     json_result = json.dumps(topicsDictWords, default=json_util.default)
-    with open('../client/src/ModelResults/swarnData.json', "w") as outfile:
+    with open('../frontend/src/ModelResults/swarnData.json', "w") as outfile:
         outfile.write(json_result)
 #-----------------------------------------------------------------------------------------------------
 def topicODSWeight(simmilarity):
@@ -291,10 +291,10 @@ def topicODSWeight(simmilarity):
         dataBars.append(odsResults)
     keysNames = list(keysNames)
     json_result = json.dumps(dataBars, default=json_util.default)
-    with open('../client/src/ModelResults/odsTopicPercentage.json', "w") as outfile:
+    with open('../frontend/src/ModelResults/odsTopicPercentage.json', "w") as outfile:
         outfile.write(json_result)
     json_result = json.dumps(keysNames, default=json_util.default)
-    with open('../client/src/ModelResults/odsTopicPercentageKeys.json', "w") as outfile:
+    with open('../frontend/src/ModelResults/odsTopicPercentageKeys.json', "w") as outfile:
         outfile.write(json_result)
 #-----------------------------------------------------------------------------------------------------
 
@@ -365,7 +365,7 @@ def dominant():
         else:
             doc_lens.append([' ', 0])
     json_result = json.dumps(doc_lens, default=json_util.default)
-    with open('../client/src/ModelResults/histogram.json', "w") as outfile:
+    with open('../frontend/src/ModelResults/histogram.json', "w") as outfile:
         outfile.write(json_result)
     return df_dominant_topic
 #-----------------------------------------------------------------------------------------------------     

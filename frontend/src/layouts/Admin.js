@@ -1,16 +1,10 @@
 import React from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import moment from "moment";
-// creates a beautiful scrollbar
 import PerfectScrollbar from "perfect-scrollbar";
 import "perfect-scrollbar/css/perfect-scrollbar.css";
-// @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
-// @material-ui/icons
 import Dashboard from "@material-ui/icons/Dashboard";
-import Home from "@material-ui/icons/Home";
-// core components
-import Navbar from "components/Navbars/Navbar.js";
 import Footer from "components/Footer/Footer.js";
 import Sidebar from "components/Sidebar/Sidebar.js";
 import HomePage from "../views/Home/Home.js";
@@ -21,9 +15,6 @@ import Settings from "@material-ui/icons/Settings";
 import TrendingUp from "@material-ui/icons/TrendingUp";
 import AppsIcon from '@material-ui/icons/Apps';
 
-import ModelDashboardPage from "../views/ModelDashboard/ModelDashboard.js";
-//import routes from "routes.js";
-
 import styles from "assets/jss/material-dashboard-react/layouts/adminStyle.js";
 
 import Logo from '../images/Home/UnfpaLogo.png'; 
@@ -33,18 +24,14 @@ let ps;
 const useStyles = makeStyles(styles);
 
 export default function Admin({ ...rest }) {
-  // styles
   const classes = useStyles();
-  // ref to help us initialize PerfectScrollbar on windows devices
   const mainPanel = React.createRef();
-  // states and functions
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const [isDashboardDisabled, setIsDashboardDisabled] = React.useState(true);
   const [parameters, setParameters] = React.useState({});
 
   const executeModel = (modelParameters) => {
     console.log(modelParameters);
-    setIsDashboardDisabled(false);
+
     setParameters(modelParameters);
   }
 
@@ -89,7 +76,6 @@ export default function Admin({ ...rest }) {
               component={prop.component}
               key={key}
             >
-              {isDashboardDisabled && prop.path === "/dashboard" ? <Redirect to="/home" /> : prop.component}
             </Route>
           );
         }
@@ -110,7 +96,6 @@ export default function Admin({ ...rest }) {
       setMobileOpen(false);
     }
   };
-  // initialize and destroy the PerfectScrollbar plugin
   React.useEffect(() => {
     if (navigator.platform.indexOf("Win") > -1) {
       ps = new PerfectScrollbar(mainPanel.current, {
@@ -120,7 +105,6 @@ export default function Admin({ ...rest }) {
       document.body.style.overflow = "hidden";
     }
     window.addEventListener("resize", resizeFunction);
-    // Specify how to clean up after this effect:
     return function cleanup() {
       if (navigator.platform.indexOf("Win") > -1) {
         ps.destroy();

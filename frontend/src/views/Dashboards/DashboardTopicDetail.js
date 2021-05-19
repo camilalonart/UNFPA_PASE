@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import PropTypes from 'prop-types';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
 import { CssBaseline,Hidden, Grid, Paper, Typography } from '@material-ui/core/';
@@ -17,11 +16,9 @@ import {
   BarChart,
   Brush,
 } from "recharts";
-import SankeysResult from '../../ModelResults/sankeyResult.json';
 
 import WordsResults from '../../ModelResults/dataPerTopic.json';
 import ReactWordcloud from 'react-wordcloud';
-import Chart from "react-google-charts";
 import { ResponsiveBar } from '@nivo/bar'
 
 import styles from "assets/jss/material-dashboard-react/views/dashboardStyle.js";
