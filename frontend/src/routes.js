@@ -18,17 +18,15 @@
 // @material-ui/icons
 import Dashboard from "@material-ui/icons/Dashboard";
 import TrendingUp from "@material-ui/icons/TrendingUp";
-import LibraryBooks from "@material-ui/icons/LibraryBooks";
-import BubbleChart from "@material-ui/icons/BubbleChart";
-import LocationOn from "@material-ui/icons/LocationOn";
-import Notifications from "@material-ui/icons/Notifications";
-import Unarchive from "@material-ui/icons/Unarchive";
+import AppsIcon from '@material-ui/icons/Apps';
 import Settings from "@material-ui/icons/Settings";
 // core components/views for Admin layout
 import HomePage from "./views/Home/Home.js";
 import DashboardPage from "views/Dashboard/Dashboard.js";
 import DashboardGeneral from "views/Dashboards/Dashboard.js";
 import DashboardModel from "views/Dashboards/DashboardModel.js";
+import DashboardTopicDetail from "views/Dashboards/DashboardTopicDetail.js";
+
 
 const dashboardRoutes = [
   {
@@ -49,7 +47,14 @@ const dashboardRoutes = [
     path: "/dashboard",
     name: "Dashboard",
     icon: Dashboard,
-    component: dashboardModel,
+    component: DashboardModel,
+    layout: "/admin",
+  },
+  {
+    path: "/dashboardTopics",
+    name: "Información por Tema",
+    icon: AppsIcon,
+    component: DashboardTopicDetail,
     layout: "/admin",
   },
   {

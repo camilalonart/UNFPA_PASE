@@ -14,10 +14,12 @@ import Navbar from "components/Navbars/Navbar.js";
 import Footer from "components/Footer/Footer.js";
 import Sidebar from "components/Sidebar/Sidebar.js";
 import HomePage from "../views/Home/Home.js";
+import DashboardTopicDetail from "../views/Dashboards/DashboardTopicDetail.js";
 import DashboardGeneral from "../views/Dashboards/Dashboard.js";
 import DashboardModel from "../views/Dashboards/DashboardModel.js";
 import Settings from "@material-ui/icons/Settings";
 import TrendingUp from "@material-ui/icons/TrendingUp";
+import AppsIcon from '@material-ui/icons/Apps';
 
 import ModelDashboardPage from "../views/ModelDashboard/ModelDashboard.js";
 //import routes from "routes.js";
@@ -82,6 +84,12 @@ export default function Admin({ ...rest }) {
       component: () => <ModelDashboardPage parameters={parameters}/>,
       layout: "/admin",
       disabled: isDashboardDisabled,
+    },{
+      path: "/dashboardTopics",
+      name: "Información por Tema",
+      icon: AppsIcon,
+      component: () => <DashboardTopicDetail parameters={parameters}/>,
+      layout: "/admin",
     },
   ];
 
