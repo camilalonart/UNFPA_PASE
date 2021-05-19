@@ -27,13 +27,11 @@ router.get('/', function(req, res, next) {
 
   child.on('close', function (code) {
     if (code !== 0) {
-        console.log("ERROR", code);
         return res.json({ success: false, message: "ERROR 500" }).status(500);
     } else {
       const fileContents = fs.readFileSync(fullPath);
       try {
         const data = JSON.parse(fileContents)
-        console.log(data);
         if(success) return res.json({success: success, data: data, message: message}).status(200);
         else return res.json({success: success, message: message}).status(400);
       } catch(err) {

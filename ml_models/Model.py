@@ -395,24 +395,6 @@ def moreTopicInsights(dominantData):
         i+=1
         
     return topicData
-#-----------------------------------------------------------------------------------------------------     
-def encontrarODSTopico(lda_model,id2word):
-    def topicsWithNewQueriesODS(new_doc, ldamodel):
-        new_doc = process(new_doc)
-        for texts in new_doc[0]:
-            for text in texts:
-                print(text)
-            new_doc_bow = [id2word.doc2bow(texts)]
-            topics = ldamodel.get_document_topics(new_doc_bow)
-            for probabilities in topics:
-                probabilities.sort(key = lambda x : x[1], reverse=True)
-                print(lda_model.print_topic(probabilities[0][0]))
-                print(probabilities)
-    def relaciónDeOds(lda_model,id2word):
-        new_doc = {'respuesta':['erradicar la pobreza extrema para todas las personas en el mundo','La delincuencia y drogadicción son un problema']}
-        df = pd.DataFrame(new_doc)
-        topicsWithNewQueriesODS(df, lda_model)
-    relaciónDeOds(lda_model,id2word)
 
 if __name__ == "__main__":
     df = pd.read_pickle("./processedData.pkl")
