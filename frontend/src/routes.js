@@ -22,7 +22,6 @@ import AppsIcon from '@material-ui/icons/Apps';
 import Settings from "@material-ui/icons/Settings";
 // core components/views for Admin layout
 import HomePage from "./views/Home/Home.js";
-import DashboardPage from "views/Dashboard/Dashboard.js";
 import DashboardGeneral from "views/Dashboards/Dashboard.js";
 import DashboardModel from "views/Dashboards/DashboardModel.js";
 import DashboardTopicDetail from "views/Dashboards/DashboardTopicDetail.js";
@@ -56,14 +55,7 @@ const dashboardRoutes = [
     icon: AppsIcon,
     component: DashboardTopicDetail,
     layout: "/admin",
-  },
-  {
-    path: "/dashboardTemplate",
-    name: "Dashboard",
-    icon: Dashboard,
-    component: DashboardPage,
-    layout: "/admin",
-  },
+  }
 ];
 
 export default dashboardRoutes;

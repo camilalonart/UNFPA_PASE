@@ -25,56 +25,28 @@ import {
   ResponsiveContainer
 } from "recharts";
 
-import Logo from '../../images/Home/UnfpaLogo.png'; 
-
-import ODS1 from '../../images/SDGs/1.png';
-import ODS2 from '../../images/SDGs/2.png'; 
-import ODS3 from '../../images/SDGs/3.png'; 
-import ODS4 from '../../images/SDGs/4.png';
-import ODS5 from '../../images/SDGs/5.png'; 
-import ODS6 from '../../images/SDGs/6.png'; 
-import ODS7 from '../../images/SDGs/7.png';
-import ODS8 from '../../images/SDGs/8.png'; 
-import ODS9 from '../../images/SDGs/9.png'; 
-import ODS10 from '../../images/SDGs/10.png';
-import ODS11 from '../../images/SDGs/11.png'; 
-import ODS12 from '../../images/SDGs/12.png'; 
-import ODS13 from '../../images/SDGs/13.png'; 
-import ODS14 from '../../images/SDGs/14.png'; 
-import ODS15 from '../../images/SDGs/15.png';
-import ODS16 from '../../images/SDGs/16.png'; 
-import ODS17 from '../../images/SDGs/17.png'; 
-
 import styles from "assets/jss/material-dashboard-react/views/dashboardStyle.js";
 
-
-const SDGIcons = [ODS1,ODS2,ODS3,ODS4,ODS5,ODS6,ODS7,ODS8,ODS9,ODS10,ODS11,ODS12,ODS13,ODS14,ODS15,ODS16,ODS17]
+import { executeLDAModel } from "../../API/LDAModelAPI.js"
 
 const useStyles = makeStyles(styles);
 
 export default function DashboardModel(props) {
   const { window } = props;
   const classes = useStyles();
-  const theme = useTheme();
-  const [mobileOpen, setMobileOpen] = React.useState(false);
 
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
-
-
-  const container = window !== undefined ? () => window().document.body : undefined;
-
-   const [state, setState] = useState({ 
-    numberOfTopics: 10,
-    archivo: 'MedellinCleaned.xlsx',
-   });
-   const handleFileChange = (e) => {
-       setState({ ...state, archivo: e.target.value });
-   };
-   const handleNumberOfTopicsChange = (e) => {
-       setState({ ...state, numberOfTopics: e.target.value });
-   };
+  React.useEffect(() => {
+    executeLDAModel(props.parameters, (data, err) => {
+      if(!err && data.success) {
+        console.log(data);
+      } else if (!err) {
+        console.log(data.message);
+      } else {
+        console.log(err);
+      }
+    });
+  }, []);
+  
 
   return (
     <div className={classes.root}>

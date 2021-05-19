@@ -45,13 +45,6 @@ export default function Admin({ ...rest }) {
   const executeModel = (modelParameters) => {
     console.log(modelParameters);
     setIsDashboardDisabled(false);
-    if(modelParameters.start) {
-      modelParameters.start = moment(modelParameters.start, "DD/MM/YYYY").format("YYYY-MM-DD")  + " 00:00:00.0";
-    }
-    if(modelParameters.end) {
-      modelParameters.end = moment(modelParameters.end, "DD/MM/YYYY").format("YYYY-MM-DD") + " 23:59:59.9";
-    }
-    modelParameters.accounts = Object.keys(modelParameters.accounts).filter(account => modelParameters.accounts[account]).join(" ");
     setParameters(modelParameters);
   }
 
@@ -78,13 +71,6 @@ export default function Admin({ ...rest }) {
       layout: "/admin",
     },
     {
-      path: "/dashboardTemplate",
-      name: "Dashboard",
-      icon: Dashboard,
-      component: () => <ModelDashboardPage parameters={parameters}/>,
-      layout: "/admin",
-      disabled: isDashboardDisabled,
-    },{
       path: "/dashboardTopics",
       name: "Información por Tema",
       icon: AppsIcon,
@@ -154,7 +140,6 @@ export default function Admin({ ...rest }) {
       />
 
       <div className={classes.mainPanel} ref={mainPanel}>
-        {/* On the /maps route we want the map to be on full screen - this is not possible if the content and conatiner classes are present because they have some paddings which would make the map smaller */}
         {getRoute() ? (
           <div className={classes.content}>
             <div className={classes.container}>{switchRoutes}</div>

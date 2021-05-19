@@ -84,7 +84,7 @@ const renderParameterSelector = (onChange, handleFileChange, classes) => {
               fullWidth: true
             }}
             inputProps={{
-              name: "topics",
+              name: "numberOfTopics",
               type: "number",
               onChange: onChange,
             }}
@@ -104,7 +104,7 @@ const renderParameterSelector = (onChange, handleFileChange, classes) => {
                 
                 onChange={handleFileChange}
                 inputProps={{
-                    name: "topics",
+                    name: "numberOfTopics",
                     type: "number",
                 }}
                 >
@@ -121,8 +121,8 @@ const renderParameterSelector = (onChange, handleFileChange, classes) => {
 
 const validParameters = (parameters) => {
   console.log(parameters);
-  let topicsNumber = Number(parameters.topics);
-  if(!topicsNumber || topicsNumber < 1 || topicsNumber > 10) return false;
+  let numberOfTopics = Number(parameters.numberOfTopics);
+  if(!numberOfTopics || numberOfTopics < 1 || numberOfTopics > 10) return false;
   return true;
 };
 
@@ -157,7 +157,7 @@ export default function Home(props) {
             {renderParameterSelector(handleParameterChange, handleFileChange, classes)}
             {validParameters(parameters) ? (
             <div>
-              <Link to="/admin/dashboardGeneral">
+              <Link to="/admin/dashboardModel">
                 <Button
                   fullWidth
                   round
