@@ -15,6 +15,10 @@ import Footer from "components/Footer/Footer.js";
 import Sidebar from "components/Sidebar/Sidebar.js";
 import HomePage from "../views/Home/Home.js";
 import DashboardGeneral from "../views/Dashboards/Dashboard.js";
+import DashboardModel from "../views/Dashboards/DashboardModel.js";
+import Settings from "@material-ui/icons/Settings";
+import TrendingUp from "@material-ui/icons/TrendingUp";
+
 import ModelDashboardPage from "../views/ModelDashboard/ModelDashboard.js";
 //import routes from "routes.js";
 
@@ -51,26 +55,33 @@ export default function Admin({ ...rest }) {
 
   const routes = [
     {
-      path: "/home",
-      name: "Home",
-      icon: Home,
+      path: "/model",
+      name: "Parametros Modelo",
+      icon: Settings,
       component: () => <HomePage executeModel={executeModel}/>,
       layout: "/admin"
     },
     {
-      path: "/dashboard",
+      path: "/dashboardGeneral",
+      name: "Tablero de Control",
+      icon: TrendingUp,
+      component: () => <DashboardGeneral parameters={parameters}/>,
+      layout: "/admin",
+    },
+    {
+      path: "/dashboardModel",
+      name: "Modelo",
+      icon: Dashboard,
+      component: () => <DashboardModel parameters={parameters}/>,
+      layout: "/admin",
+    },
+    {
+      path: "/dashboardTemplate",
       name: "Dashboard",
       icon: Dashboard,
       component: () => <ModelDashboardPage parameters={parameters}/>,
       layout: "/admin",
       disabled: isDashboardDisabled,
-    },
-    {
-      path: "/dashboardGeneral",
-      name: "Dashboard General",
-      icon: Dashboard,
-      component: () => <DashboardGeneral parameters={parameters}/>,
-      layout: "/admin",
     },
   ];
 

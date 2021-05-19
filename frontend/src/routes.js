@@ -17,35 +17,43 @@
 */
 // @material-ui/icons
 import Dashboard from "@material-ui/icons/Dashboard";
-import Person from "@material-ui/icons/Person";
+import TrendingUp from "@material-ui/icons/TrendingUp";
 import LibraryBooks from "@material-ui/icons/LibraryBooks";
 import BubbleChart from "@material-ui/icons/BubbleChart";
 import LocationOn from "@material-ui/icons/LocationOn";
 import Notifications from "@material-ui/icons/Notifications";
 import Unarchive from "@material-ui/icons/Unarchive";
-import Home from "@material-ui/icons/Home";
+import Settings from "@material-ui/icons/Settings";
 // core components/views for Admin layout
 import HomePage from "./views/Home/Home.js";
 import DashboardPage from "views/Dashboard/Dashboard.js";
 import DashboardGeneral from "views/Dashboards/Dashboard.js";
+import DashboardModel from "views/Dashboards/DashboardModel.js";
 
 const dashboardRoutes = [
   {
-    path: "/home",
-    name: "Home",
-    icon: Home,
+    path: "/model",
+    name: "Parametros Modelo",
+    icon: Settings,
     component: HomePage,
     layout: "/admin"
   },
   {
     path: "/dashboardGeneral",
     name: "Dashboard",
-    icon: Dashboard,
+    icon: TrendingUp,
     component: DashboardGeneral,
     layout: "/admin",
   },
   {
     path: "/dashboard",
+    name: "Dashboard",
+    icon: Dashboard,
+    component: dashboardModel,
+    layout: "/admin",
+  },
+  {
+    path: "/dashboardTemplate",
     name: "Dashboard",
     icon: Dashboard,
     component: DashboardPage,
