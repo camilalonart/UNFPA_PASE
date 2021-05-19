@@ -14,7 +14,7 @@
 
  */
 .ct-grid {
-  stroke: rgba(255, 255, 255, 0.2);
+  stroke: "#FF9C00";
   stroke-width: 1px;
   stroke-dasharray: 2px;
 }
@@ -324,20 +324,20 @@ footer ul li a:hover {
   margin-right: 5px;
   position: relative;
   width: 23px;
-  background-color: rgba(30, 30, 30, 0.97);
+  background-color: "#FF9C00";
 }
 
 .fixed-plugin .badge.active,
 .fixed-plugin .badge:hover {
-  border-color: #00bbff;
+  border-color:#FF9C00;
 }
 
 .fixed-plugin .badge-purple {
-  background-color: #9c27b0;
+  background-color: #FF9C00;
 }
 
 .fixed-plugin .badge-blue {
-  background-color: #00bcd4;
+  background-color: #FF9C00;
 }
 
 .fixed-plugin .badge-green {
