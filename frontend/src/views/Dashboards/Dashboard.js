@@ -1,10 +1,7 @@
-import React, {useState} from 'react';
-import PropTypes from 'prop-types';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 
-import MenuIcon from '@material-ui/icons/Menu';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import {ListItemText, InputLabel, Button, Select, Divider, FormControl, CssBaseline, IconButton, AppBar, Drawer, Hidden, List, ListItem, Toolbar, Grid, GridList, Paper, Typography } from '@material-ui/core/';
+import { Divider,  CssBaseline, Hidden, Grid, Paper, Typography } from '@material-ui/core/';
 
 import ODS1 from '../../images/SDGs/1.png';
 import ODS2 from '../../images/SDGs/2.png'; 
@@ -24,7 +21,6 @@ import ODS15 from '../../images/SDGs/15.png';
 import ODS16 from '../../images/SDGs/16.png'; 
 import ODS17 from '../../images/SDGs/17.png'; 
 import Territorio from '../../images/Dashboard/territorio.png'; 
-import Pregunta from '../../images/Dashboard/pregunta.png'; 
 import EncuestasCount from '../../images/Dashboard/encuestasCount.png'; 
 import Anio from '../../images/Dashboard/anio.png'; 
 
@@ -36,7 +32,6 @@ import {
   ResponsiveContainer,
   Line,
   Bar,
-  Treemap,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -47,39 +42,13 @@ import {
 } from "recharts";
 
 
-import { executeLDAModel } from "../../API/LDAModelAPI.js"
 
 import styles from "assets/jss/material-dashboard-react/views/dashboardStyle.js";
 
 const useStyles = makeStyles(styles);
 
 export default function GeneralDashboardModel(props) {
-  const { window } = props;
   const classes = useStyles();
-  const theme = useTheme();
-  const [mobileOpen, setMobileOpen] = React.useState(false);
-
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
-
-
-
-  const container = window !== undefined ? () => window().document.body : undefined;
-
-   const [state, setState] = useState({ 
-    archivo: 'MedellinCleaned.xlsx',
-   });
-   const handleFileChange = (e) => {
-       setState({ ...state, archivo: e.target.value });
-   };
-   
-   const processPreguntas = () => {
-    return ModelResults.preguntas.map( (e) => ({
-      pregunta: e.pregunta,
-      cantidad: e.cantidad,
-    }));
-  };
 
   const processDataGenero = () => {
     return ModelResults.sexo.map( (e) => ({
@@ -117,33 +86,8 @@ export default function GeneralDashboardModel(props) {
 
   const dataEdades = processDataEdades();
   const dataGenero = processDataGenero();
-  const pregutas = processPreguntas();
   const anio = processDataAnio();
 
-
-  
- 
-  {ModelResults.topPalabras.map((fila) => (
-    <Paper>
-      <Typography>
-          {fila[0]} 
-        </Typography>
-        <Typography>
-          {fila[1]}
-        </Typography>
-    </Paper>
-))}
-  
-  {ModelResults.topPalabras.map((fila) => (
-    <Paper>
-      <Typography>
-          {fila[0]} 
-        </Typography>
-        <Typography>
-          {fila[1]}
-        </Typography>
-    </Paper>
-))}
   /*----------------ODS Functions and Vriables----------------*/ 
   const SDGIcons = [ODS1,ODS2,ODS3,ODS4,ODS5,ODS6,ODS7,ODS8,ODS9,ODS10,ODS11,ODS12,ODS13,ODS14,ODS15,ODS16,ODS17]
   const getTop3ODS = () => {
@@ -157,12 +101,7 @@ export default function GeneralDashboardModel(props) {
       ods6: e[5][0],
     });
   };
-  const processDataODS = () => {
-    return ModelResults.porOds.map(e => ({
-      x: e[0],
-      y: e[1],
-    }));
-  };
+  
   const processODSTiempo = () => {
     return ModelResults.datosPorMes.map(e => ({
       ods: e[0][1],
@@ -180,21 +119,8 @@ export default function GeneralDashboardModel(props) {
       diciembre: e[12][1],
     }));
   };
-  const getTreeMapODS = () => {
-    return(
-      [{
-        name: "ODS",
-        children: ModelResults.porOds.map(e => ({
-          name: e[0],
-          size: e[1],
-        }))
-      }]
-    );
-  };
-
 
   const dataODSTiempo = processODSTiempo();
-  const dataODS = processDataODS();
   const top3ODS = getTop3ODS();
   const ODSTop1 = SDGIcons[ top3ODS.ods1 - 1];
   const ODSTop2 = SDGIcons[ top3ODS.ods2 - 1];
@@ -202,51 +128,6 @@ export default function GeneralDashboardModel(props) {
   const ODSTop4 = SDGIcons[ top3ODS.ods4 - 1];
   const ODSTop5 = SDGIcons[ top3ODS.ods5 - 1];
   const ODSTop6 = SDGIcons[ top3ODS.ods6 - 1];
-  const dataTreemapODS = getTreeMapODS();
-  
-  const showEdadesGraph = () => {
-    return (
-      <div>
-        <Typography variant="h6" align="center" > Edades de encuestados </Typography> 
-        <BarChart
-          width={500}
-          height={300}
-          data={dataEdades}
-          margin={{
-            top: 5,
-            right: 30,
-            left: 20,
-            bottom: 5
-          }}
-          barSize={20}
-        >
-          <XAxis dataKey="edad" scale="point" padding={{ left: 10, right: 10 }} />
-          <YAxis />
-          <Tooltip />
-          <Legend />
-          <CartesianGrid strokeDasharray="3 3" />
-          <Bar dataKey="cantidad" fill="#FF9C00" background={{ fill: "#EAE3D6" }} />
-        </BarChart>        
-      </div>
-    );
-  };
-  
-  const showODSTreeMapGraph = () => {
-    return (
-      <div>
-        <Typography variant="h6" align="center" >Distribución de ODS</Typography> 
-        <Treemap
-          width={400}
-          height={200}
-          data={dataTreemapODS}
-          dataKey="size"
-          stroke="#fff"
-          fill="#FF9C00"
-        />
-      </div>
-    );
-  };
-
 
   return (
     <div className={classes.root}>
@@ -255,6 +136,7 @@ export default function GeneralDashboardModel(props) {
       
       <main className={classes.content}>
         <div className={classes.toolbar} />
+            <Typography variant="h6" style = {{margin: 20}}  align="center" >Datos Generales</Typography> 
             <Grid container direction="column" justify="flex-start" alignItems="flex-start" spacing = {1}>
                 <Grid item container direction="row" justify="space-between" alignItems="flex-start" spacing = {2}>
                     <Grid item lg={3} sm={6}>

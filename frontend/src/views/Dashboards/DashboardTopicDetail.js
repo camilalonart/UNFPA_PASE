@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 
 import { CssBaseline,Hidden, Grid, Paper, Typography } from '@material-ui/core/';
 
@@ -14,7 +14,6 @@ import {
   Tooltip,
   Legend,
   BarChart,
-  Brush,
 } from "recharts";
 
 import WordsResults from '../../ModelResults/dataPerTopic.json';
@@ -47,15 +46,7 @@ const SDGIcons = [ODS1,ODS2,ODS3,ODS4,ODS5,ODS6,ODS7,ODS8,ODS9,ODS10,ODS11,ODS12
 const useStyles = makeStyles(styles);
 
 export default function DashboardModel(props) {
-
-  const { window } = props;
   const classes = useStyles();
-  const theme = useTheme();
-  const [mobileOpen, setMobileOpen] = React.useState(false);
-
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
 
   const COLORS = ['#FF1493', '#45b6FE'];
 
@@ -70,7 +61,6 @@ export default function DashboardModel(props) {
       </text>
     );
   };
-  const container = window !== undefined ? () => window().document.body : undefined;
   return (
     <div className={classes.root}>
       <CssBaseline />

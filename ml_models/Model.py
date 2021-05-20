@@ -395,7 +395,8 @@ def moreTopicInsights(dominantData):
 
 if __name__ == "__main__":
     df = pd.read_pickle("./processedData.pkl")
-    
+    print('{"success": true, "message": "se han recibido los parametros"}')
+    print('{"success": true, "message": "número de topicos '+str(numberOfTopics)+'"}')
     new_data = []
     with open('data_ready.csv', newline='') as csvfile:
         spamreader = csv.reader(csvfile, delimiter=' ', quotechar='|')

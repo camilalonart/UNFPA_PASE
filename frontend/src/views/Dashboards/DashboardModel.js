@@ -24,26 +24,10 @@ import {
 
 import styles from "assets/jss/material-dashboard-react/views/dashboardStyle.js";
 
-import { executeLDAModel } from "../../API/LDAModelAPI.js"
-
 const useStyles = makeStyles(styles);
 
 export default function DashboardModel(props) {
   const classes = useStyles();
-
-  React.useEffect(() => {
-    executeLDAModel(props.parameters, (data, err) => {
-      if(!err && data.success) {
-        console.log(data);
-      } else if (!err) {
-        console.log(data.message);
-      } else {
-        console.log(err);
-      }
-    });
-  }, []);
-  
-
   return (
     <div className={classes.root}>
       <CssBaseline />
