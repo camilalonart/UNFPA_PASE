@@ -1,8 +1,8 @@
-import React, {useState} from 'react';
+import React from 'react';
 import "../css/styles.css";
 import { Link } from 'react-router-dom';
 
-import {Paper, Typography,useMediaQuery,useTheme, Button, Grid} from '@material-ui/core';
+import {Paper, Typography,useMediaQuery,useTheme, Grid} from '@material-ui/core';
 import Logo from '../images/Home/UnfpaLogo.png'; 
 import Lorenz from '../images/Home/Lorenz.png'; 
 import Analitica from "../images/Home/Analitica.png";
@@ -11,7 +11,6 @@ import Topicos from "../images/Home/Topicos.png";
 import TopicGeneral from "../images/Home/TopicGeneral.png";
 
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
-import Add from '@material-ui/icons/Add';
 
 export default function Home() {
 

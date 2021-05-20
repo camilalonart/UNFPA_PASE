@@ -1,10 +1,7 @@
-import React, {useState} from 'react';
-import PropTypes from 'prop-types';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import React from 'react';
+import { makeStyles} from '@material-ui/core/styles';
 
-import MenuIcon from '@material-ui/icons/Menu';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import {Button, Select, Divider, FormControl, CssBaseline, IconButton, AppBar, Drawer, Hidden, List, ListItem, Toolbar, Grid, GridList, Paper, Typography } from '@material-ui/core/';
+import {CssBaseline, Grid, Paper, Typography } from '@material-ui/core/';
 
 import ChordsResults from '../../ModelResults/chordData.json';
 import ChordsNameResults from '../../ModelResults/chordNames.json';
@@ -32,7 +29,6 @@ import { executeLDAModel } from "../../API/LDAModelAPI.js"
 const useStyles = makeStyles(styles);
 
 export default function DashboardModel(props) {
-  const { window } = props;
   const classes = useStyles();
 
   React.useEffect(() => {
