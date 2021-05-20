@@ -40,7 +40,9 @@ const renderInformationCard = (parameters) => {
          - Nombre de archivo: {parameters.file}
         </p>
         <br/>
-
+        <p>
+         ESTE PROCESO PUEDE DURAR UN TIEMPO
+        </p>
     </Grid>
   );
 };
@@ -136,7 +138,6 @@ export default function Home(props) {
             {renderParameterSelector(handleParameterChange, handleFileChange, classes)}
             {validParameters(parameters) ? (
             <div>
-              <Link to="/admin/dashboardModel">
                 <Button
                   fullWidth
                   round
@@ -145,7 +146,6 @@ export default function Home(props) {
                 >
                   Consultar
                 </Button>
-              </Link>
             </div>
             ) : (
             <div>

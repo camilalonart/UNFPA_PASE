@@ -3,14 +3,11 @@ const router = express.Router();
 const spawn = require('child_process').spawn;
 var path = require('path');
 const fs = require("fs")
+const model = "../../ml_models/Model.py";
 
-const ldaModelFilename = "../../ml_models/Model.py";
-const fullPath = path.resolve("../client/src/ModelResults/resultsAll.json");
-
-/* GET LDA Model */
 router.get('/', function(req, res, next) {
   let numberOfTopics = req.query.numberOfTopics;
-  let args = [ldaModelFilename, '--numberOfTopics', numberOfTopics];
+  let args = [model, '--numberOfTopics', numberOfTopics];
   let child = spawn('python3', args);
   let success;
   let message;
@@ -21,6 +18,7 @@ router.get('/', function(req, res, next) {
     success = scriptResult.success;
     message = scriptResult.message;
   });
+  
   child.stderr.on('data', (data) => {
     console.log(`error:${data}`);
   });
@@ -29,14 +27,10 @@ router.get('/', function(req, res, next) {
     if (code !== 0) {
         return res.json({ success: false, message: "ERROR 500" }).status(500);
     } else {
-      const fileContents = fs.readFileSync(fullPath);
       try {
-        const data = JSON.parse(fileContents)
-        if(success) return res.json({success: success, data: data, message: message}).status(200);
-        else return res.json({success: success, message: message}).status(400);
+        if(success) return res.json({success: success, data:'Modelo cargado', message: message}).status(200);
       } catch(err) {
         console.log(err);
-        return res.json({ success: false, message: "ERROR 500" }).status(500);
       }
     }
   });
