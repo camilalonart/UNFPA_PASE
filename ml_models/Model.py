@@ -392,6 +392,22 @@ def moreTopicInsights(dominantData):
         i+=1
         
     return topicData
+#-----------------------------------------------------------------------------------------------------     
+def sankeyFileODS(odsDictWords,topicsDictWords):
+    dataForSankey = [['From', 'To', 'Weight']]
+    lista = []
+    for topicNum, topicWords in topicsDictWords.items(): 
+        for odsNum, odsWords in odsDictWords.items():
+            list1 = odsWords
+            list2 = topicWords
+            union = set(list1) & set(list2)
+            if 0 < len(union):
+                dataForSankey.append(["ODS"+str(odsNum),"Tema"+str(topicNum),3])
+                for word in union:
+                    dataForSankey.append(["Tema"+str(topicNum),word,1])
+    json_result = json.dumps(dataForSankey, default=json_util.default)
+    with open('../frontend/src/ModelResults/sankeyODS.json', "w") as outfile:
+        outfile.write(json_result)
 
 if __name__ == "__main__":
     df = pd.read_pickle("./processedData.pkl")
@@ -423,4 +439,5 @@ if __name__ == "__main__":
     getChord(frequency,simmilarity)
     swarnData(lda_model,numberOfTopics)
     topicODSWeight(simmilarity)
+    sankeyFileODS(odsDictWords,topicsDictWords)
     print('{"success": true, "message": "Datos en front"}')

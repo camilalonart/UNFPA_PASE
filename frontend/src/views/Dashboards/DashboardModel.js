@@ -10,6 +10,8 @@ import SwarmResultNames from '../../ModelResults/swarnNames.json';
 import OdsTopicPercentageKeys from '../../ModelResults/odsTopicPercentageKeys.json';
 import OdsTopicPercentage from '../../ModelResults/odsTopicPercentage.json';
 import Histogram from '../../ModelResults/histogram.json';
+import SankeyData from '../../ModelResults/sankeyResult.json';
+import ODSSankey from '../../ModelResults/sankeyODS.json';
 
 import { ResponsiveChord } from '@nivo/chord'
 import { ResponsiveSwarmPlot } from '@nivo/swarmplot'
@@ -120,8 +122,7 @@ export default function DashboardModel(props) {
                             valueScale={{ type: 'linear' }}
                             indexScale={{ type: 'band', round: true }}
                             colors={{ scheme: 'nivo' }}
-                            
-                            
+                            enableLabel={false}
                             borderColor={{ from: 'color', modifiers: [ [ 'darker', 1.6 ] ] }}
                             axisTop={null}
                             axisRight={null}
@@ -184,7 +185,7 @@ export default function DashboardModel(props) {
                           width={300}
                           height={270}
                           chartType="Histogram"
-                          loader={<div>Loading Chart</div>}
+                          loader={<div>Cargando distribución del recuento de palabras de respuestas...</div>}
                           data={Histogram}
                           options={{
                             colors: ['#e7711c'],
@@ -194,6 +195,34 @@ export default function DashboardModel(props) {
                       </ResponsiveContainer>
                       </Paper>                     
                     </Grid>
+                </Grid>
+                <Grid item container direction="row" justify="space-between" alignItems="flex-start" spacing = {2}>
+                    <Grid item lg={6} xs={12}>
+                        <Paper style={{padding: 20, height: 850 }}>
+                            <ResponsiveContainer width="100%" height={800}>
+                            <Chart
+                                chartType="Sankey"
+                                loader={<div>Cargando Sankey...</div>}
+                                data={SankeyData}
+                                width={600}
+                                height={'600px'}
+                                />
+                            </ResponsiveContainer>
+                        </Paper>   
+                    </Grid>  
+                    <Grid item lg={6} xs={12}>
+                        <Paper style={{padding: 20, height: 850 }}>
+                            <ResponsiveContainer width="100%" height={800}>
+                            <Chart
+                                chartType="Sankey"
+                                loader={<div>Cargando Sankey...</div>}
+                                data={ODSSankey}
+                                width={600}
+                                height={'600px'}
+                                />
+                            </ResponsiveContainer>
+                        </Paper>   
+                    </Grid>  
                 </Grid>
             </Grid>
       </main>
