@@ -41,7 +41,6 @@ const renderInformationCard = (parameters) => {
         </p>
         <br/>
         <p>
-         ESTE PROCESO PUEDE DURAR UN TIEMPO
         </p>
     </Grid>
   );
@@ -142,7 +141,7 @@ export default function Home(props) {
                   fullWidth
                   round
                   color="primary"
-                  onClick={() => props.executeModel(parameters)}
+                  onClick={()=>this.props.executeModel(parameters)}
                 >
                   Consultar
                 </Button>
