@@ -17,7 +17,6 @@ import gensim.corpora as corpora
 from gensim.utils import simple_preprocess
 from gensim.models import CoherenceModel
 from gensim.models import LdaModel
-from gensim.utils import lemmatize
 
 import csv
 
@@ -61,7 +60,7 @@ def storeGeneralInsight(df, odsData):
     jsonData = {}
     #ANIO--------------------------------------------------
     jsonData['anio'] = [int(df.anio[0])]
-    
+
     #RESPUESTAS POR PREGUNTA-----------------------------------------------
     preguntasCount = df['pregunta'].value_counts()
     cantidadDePreguntas = len(preguntasCount)
@@ -297,7 +296,6 @@ def topicODSWeight(simmilarity):
     with open('../frontend/src/ModelResults/odsTopicPercentageKeys.json', "w") as outfile:
         outfile.write(json_result)
 #-----------------------------------------------------------------------------------------------------
-
 def limpiezaDiccionario(odsDictWords):
     if 'animal' in odsDictWords[2]: odsDictWords[2].remove('animal')
     if 'animales' in odsDictWords[2]: odsDictWords[2].remove('animales')
@@ -374,7 +372,6 @@ def moreTopicInsights(dominantData):
     generos = df['sexo'].value_counts()
     mujerCount = generos[0]
     hombreCount = generos[1]
-    print(mujerCount,hombreCount)
     topicData = []
     i = 0
     for row in groupsByTopic:
@@ -409,15 +406,15 @@ if __name__ == "__main__":
         for a in d:
             data_ready.append(a.split(','))
     lda_model, corpus, id2word = LDAModel(df,numberOfTopics,data_ready)
-    print('{"success": false, "message": "Modelo construido"}')
+    print('{"success": true, "message": "Modelo construido"}')
     topicsDictWords = createDictForTopics(lda_model, numberOfTopics)
     odsDictWords = createDictForOds(df)
     odsDictWords = limpiezaDiccionario(odsDictWords)
     simmilarity = simmilarityOdsandTopics(topicsDictWords, odsDictWords)
     frequency = frequentODS(simmilarity)
-    print('{"success": false, "message": "Relación con ODSs Lista"}')
+    print('{"success": true, "message": "Relación con ODSs Lista"}')
     dominantData = dominant()
-    print('{"success": false, "message": "Dominantes Listo"}')
+    print('{"success": true, "message": "Dominantes Listo"}')
     moreInsights = moreTopicInsights(dominantData)
     storeGeneralInsight(df, frequency)
     sankeyFile(lda_model,numberOfTopics)
@@ -425,4 +422,4 @@ if __name__ == "__main__":
     getChord(frequency,simmilarity)
     swarnData(lda_model,numberOfTopics)
     topicODSWeight(simmilarity)
-    print('{"success": false, "message": "Datos en front"}')
+    print('{"success": true, "message": "Datos en front"}')

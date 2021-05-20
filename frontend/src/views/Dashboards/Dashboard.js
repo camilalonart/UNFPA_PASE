@@ -28,8 +28,6 @@ import Pregunta from '../../images/Dashboard/pregunta.png';
 import EncuestasCount from '../../images/Dashboard/encuestasCount.png'; 
 import Anio from '../../images/Dashboard/anio.png'; 
 
-import { Link } from "react-router-dom";
-import {XYPlot, HorizontalBarSeries, LineMarkSeries} from 'react-vis';
 import ModelResults from '../../ModelResults/generalResult.json';
 import { PieChart, Pie, Cell } from "recharts";
 
@@ -48,7 +46,6 @@ import {
   Brush,
 } from "recharts";
 
-import Logo from '../../images/Home/UnfpaLogo.png'; 
 
 import { executeLDAModel } from "../../API/LDAModelAPI.js"
 
