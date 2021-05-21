@@ -166,6 +166,7 @@ export default function DashboardModel(props) {
                                 keys={['Importancia','Frecuencia']}
                                 data={topic.infoCompleta}
                                 indexBy="word"
+                                layout = "horizontal"
                                 margin={{ top: 5, right: 50, bottom: 50, left: 50 }}
                                 padding={0.2}
                                 valueScale={{ type: 'linear' }}
@@ -218,7 +219,6 @@ export default function DashboardModel(props) {
                                         ]
                                     }
                                 ]}
-                                
                               />
                             </div>  
                             </ResponsiveContainer>
