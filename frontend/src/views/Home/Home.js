@@ -137,14 +137,16 @@ export default function Home(props) {
             {renderParameterSelector(handleParameterChange, handleFileChange, classes)}
             {validParameters(parameters) ? (
             <div>
+              <Link to="/admin/dashboardModel">
                 <Button
                   fullWidth
                   round
                   color="primary"
-                  onClick={()=>this.props.executeModel(parameters)}
+                  onClick={()=>props.executeModel(parameters)}
                 >
                   Consultar
                 </Button>
+              </Link>
             </div>
             ) : (
             <div>

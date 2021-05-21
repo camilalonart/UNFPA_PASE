@@ -48,7 +48,7 @@ export default function Home() {
                                         <img src={Analitica} alt='Analitica' style={{ borderRadius: 5, width: "50%", height: "50%" }} />
                                     </Grid>
                                     <Grid item sm={9} xs={6}>
-                                        <Typography style={{ textAlign: 'left', color:'black' }} variant={isMobileOrTablet ? "body2" : "body1"} color="primary" display="block">Analíticas generales</Typography>
+                                        <Typography style={{ textAlign: 'left', color:'black' }} variant={isMobileOrTablet ? "body2" : "body1"} color="primary" display="block">Consultas</Typography>
                                     </Grid>
                                     <Grid item xs={1}>
                                         <ArrowForwardIosIcon/>
@@ -57,43 +57,6 @@ export default function Home() {
                             </Paper>
                         </Link> 
                     </Grid> 
-                    
-                    <Grid item>
-                        <Link href="/admin/dashboardModel" to={`/admin/dashboardModel`} style={{ textDecoration: 'none' }}>
-                            <Paper style={{ padding: 12, position: "relative", borderRadius: 5, marginLeft:30,marginRight:30}} elevation={3}>
-                                <Grid container alignItems="center" justify="space-between" wrap="nowrap">
-                                    <Grid item sm={2} xs={5}>
-                                        <img src={TopicGeneral}  alt='Topicos' style={{ borderRadius: 5, width: "50%", height: "50%" }} />
-                                    </Grid>
-                                    <Grid item sm={9} xs={6}>
-                                        <Typography style={{ textAlign: 'left', color:'black' }} variant={isMobileOrTablet ? "body2" : "body1"} color="primary" display="block">Hallazgos generales de los temas</Typography>
-                                    </Grid>
-                                    <Grid item xs={1}>
-                                        <ArrowForwardIosIcon/>
-                                    </Grid>
-                                </Grid> 
-                            </Paper>
-                        </Link>
-                    </Grid>
-
-                    <Grid item>
-                        <Link href="/admin/dashboardTopics" to={`/admin/dashboardTopics`} style={{ textDecoration: 'none' }}>
-                            <Paper style={{ padding: 12, position: "relative", borderRadius: 5, marginLeft:30,marginRight:30}} elevation={3}>
-                                <Grid container alignItems="center" justify="space-between" wrap="nowrap">
-                                    <Grid item sm={2} xs={5}>
-                                        <img src={Topicos}  alt='Topicos' style={{ borderRadius: 5, width: "50%", height: "50%" }} />
-                                    </Grid>
-                                    <Grid item sm={9} xs={6}>
-                                        <Typography style={{ textAlign: 'left', color:'black' }} variant={isMobileOrTablet ? "body2" : "body1"} color="primary" display="block">Hallazgos por cada tema</Typography>
-                                    </Grid>
-                                    <Grid item xs={1}>
-                                        <ArrowForwardIosIcon/>
-                                    </Grid>
-                                </Grid> 
-                            </Paper>
-                        </Link>
-                    </Grid>
-                    
                 </Grid>
                 <Grid item xs={12} sm={6}>
                     <img alt="complex" src={Lorenz} style={{ display: 'block',maxWidth: '70%',minWidth: '50%', marginTop:"10%", marginBottom:"10%", marginLeft:'10%',marginRight:'10%'}}/>

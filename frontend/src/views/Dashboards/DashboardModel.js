@@ -39,7 +39,7 @@ export default function DashboardModel(props) {
                 <Grid item container direction="row" justify="space-between" alignItems="flex-start" spacing = {2}>
                     <Grid item lg={4} xs={12}>
                         <Paper style={{paddingTop: 10, paddingBottom: 15, height: 350 }}>
-                            <Typography style={{ marginTop: 10 }} variant="body1" align="center">Relación de ODS y tópicos</Typography>
+                            <Typography style={{ marginTop: 10 }} variant="body1" align="center">Relación de ODS y temas</Typography>
                             <div style={{ width: 310, height: 310 }}>
                             <ResponsiveChord
                                 matrix={ChordsResults}
@@ -110,7 +110,7 @@ export default function DashboardModel(props) {
                 <Grid item container direction="row" justify="space-between" alignItems="flex-start" spacing = {2}>
                     <Grid item lg={8} xs={12}>
                         <Paper style={{padding: 20, height: 350 }}>
-                          <Typography style={{ marginTop: 10 }} variant="body1" align="center">Importancia de tópico por ods</Typography>
+                          <Typography style={{ marginTop: 10 }} variant="body1" align="center">Importancia de tema por ods</Typography>
                           <ResponsiveContainer width="120%" height={290}>
                           <div style={{ width: 620, height: 290 }}>
                           <ResponsiveBar
