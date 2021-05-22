@@ -39,7 +39,11 @@ router.createTension = async (req, res) => {
         implicaciones,
         reforzadores,
         liberadores, 
-        valoracionTensiones} = req.body;
+        valoracionTensiones,
+        balanceGeneral,
+        balanceTotal,
+        narrativa,
+    } = req.body;
 
     const newTension = new  TensionesSchema({ dimension,
         dimensionEspecifica,
@@ -53,7 +57,10 @@ router.createTension = async (req, res) => {
         implicaciones,
         reforzadores,
         liberadores, 
-        valoracionTensiones})
+        valoracionTensiones,
+        balanceGeneral,
+        balanceTotal,
+        narrativa,})
 
     try {
         await newTension.save();
@@ -78,7 +85,10 @@ router.updateTension = async (req, res) => {
         implicaciones,
         reforzadores,
         liberadores, 
-        valoracionTensiones } = req.body;
+        valoracionTensiones,
+        balanceGeneral,
+        balanceTotal,
+        narrativa,} = req.body;
     
     if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No hay tension con id ${id}`);
 
@@ -93,7 +103,11 @@ router.updateTension = async (req, res) => {
         generadores,
         implicaciones,
         reforzadores,
-        liberadores, valoracionTensiones, 
+        liberadores,
+        valoracionTensiones,
+        balanceGeneral,
+        balanceTotal,
+        narrativa, 
         _id: id };
 
     await  TensionesSchema.findByIdAndUpdate(id, updatedPost, { new: true });

@@ -56,13 +56,6 @@ const dashboardRoutes = [
     icon: AppsIcon,
     component: DashboardTopicDetail,
     layout: "/admin",
-  },
-  {
-    path: "/crear/tension",
-    name: "Crear Tensión",
-    icon: AppsIcon,
-    component: CrearTension,
-    layout: "/",
   }
 ];
 

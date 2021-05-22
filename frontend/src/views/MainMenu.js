@@ -24,7 +24,7 @@ export default function Home() {
                         <img alt="complex" src={Logo} style={{ display: 'block', marginTop:"15%", marginBottom:"15%", maxWidth: '55%',minWidth: '45%', marginLeft:'30%',marginRight:'30%'}}/>
                     </Grid>
                     <Grid  item xs={12} >
-                        <Link href="/crear/tension" to={`/crear/tension`}  style={{ textDecoration: 'none' }}>
+                        <Link href="/tension/crear" to={`/tension/crear`}  style={{ textDecoration: 'none' }}>
                             <Paper style={{ padding: 12, position: "relative", borderRadius: 5, marginLeft:30,marginRight:30}} elevation={3}>
                                 <Grid container alignItems="center" justify="space-between" wrap="nowrap">
                                     <Grid item sm={2} xs={5}>
