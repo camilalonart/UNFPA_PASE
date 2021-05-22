@@ -197,19 +197,7 @@ export default function DashboardModel(props) {
                     </Grid>
                 </Grid>
                 <Grid item container direction="row" justify="space-between" alignItems="flex-start" spacing = {2}>
-                    <Grid item lg={6} xs={12}>
-                        <Paper style={{padding: 20, height: 850 }}>
-                            <ResponsiveContainer width="100%" height={800}>
-                            <Chart
-                                chartType="Sankey"
-                                loader={<div>Cargando Sankey...</div>}
-                                data={SankeyData}
-                                width={600}
-                                height={'600px'}
-                                />
-                            </ResponsiveContainer>
-                        </Paper>   
-                    </Grid>  
+                    
                     <Grid item lg={6} xs={12}>
                         <Paper style={{padding: 20, height: 850 }}>
                             <ResponsiveContainer width="100%" height={800}>

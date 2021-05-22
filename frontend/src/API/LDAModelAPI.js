@@ -1,6 +1,5 @@
 const axios = require('axios');
-
-const baseURL = "/lda"
+const baseURL = 'http://localhost:5000/lda';
 
 const executeLDAModel = (params, callback) => {
   axios.get(`${baseURL}`, {params})

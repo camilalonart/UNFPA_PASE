@@ -140,7 +140,7 @@ def storeGeneralInsight(df, odsData):
     return jsonData  
 #-----------------------------------------------------------------------------------------------------
 def sankeyFile(lda_model,numberOfTopics):
-    topicsData = lda_model.show_topics(num_topics = numberOfTopics,num_words=7,formatted=False)
+    topicsData = lda_model.show_topics(num_topics = numberOfTopics,num_words=3,formatted=False)
     dataForSankey = [['From', 'To', 'Weight']]
     for topic in topicsData:
         currTopic = -1
@@ -297,6 +297,8 @@ def topicODSWeight(simmilarity):
         outfile.write(json_result)
 #-----------------------------------------------------------------------------------------------------
 def limpiezaDiccionario(odsDictWords):
+    if 'universidad' in odsDictWords[16]: odsDictWords[16].remove('universidad')
+    if 'jóvenes' in odsDictWords[16]: odsDictWords[16].remove('jóvenes')
     if 'animal' in odsDictWords[2]: odsDictWords[2].remove('animal')
     if 'animales' in odsDictWords[2]: odsDictWords[2].remove('animales')
     if 'clima' in odsDictWords[2]: odsDictWords[2].remove('clima')
@@ -318,8 +320,8 @@ def limpiezaDiccionario(odsDictWords):
     if 'desempleo' in odsDictWords[11]: odsDictWords[11].remove('desempleo') 
     if 'desempleo' in odsDictWords[16]: odsDictWords[16].remove('desempleo') 
     if 'desempleo' in odsDictWords[3]: odsDictWords[3].remove('desempleo')
-    odsDictWords[8].union(set(['animal','animales','perro','perros',]))
-    odsDictWords[8].union(set(['educación']))
+    odsDictWords[15].union(set(['animal','animales','perro','perros',"verde"]))
+    odsDictWords[8].union(set(["estudiante",'educación',"experiencia","laboral","trabajar","universidad","trabajos","estudiar","desigualdad","emplear","oportunidad","estudiar","desigualdad"]))
     odsDictWords[11].union(set(['parquear','vehiculo','vehiculos']))
     odsDictWords[11].union(set(['ofreciendole','drogar','peligrar,venta,drogar,pegar']))
     odsDictWords[16].union(set(['golpear','calmar','miedo','peligrar','violencia','violentar','violentar','violencia']))

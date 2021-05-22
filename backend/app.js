@@ -12,9 +12,8 @@ app.use(cors());
 app.use('/tensiones', tensionRoutes);
 app.use('/lda', ldaRoutes);
 
-
-const CONNECTION_URL = 'mongodb+srv://admin:admin@cluster0.nftkv.mongodb.net/tensiones?retryWrites=true&w=majority';
-const PORT = process.env.PORT|| 5005;
+const CONNECTION_URL = 'mongodb+srv://admin:admin@cluster0.wtdy3.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
+const PORT = process.env.PORT|| 5000;
 
 
 mongoose.connect(CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true })
