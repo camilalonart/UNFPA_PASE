@@ -25,6 +25,8 @@ import { AnyScale } from '@nivo/axes';
 export interface Generador {situacion: string, actores: string, odsPrincipal:string, metaPrincipal: string, dimensiones:string}
 export interface Implicacion {efectos: string, odsPrincipal: string, metaPrincipal: string, dimensiones:string}
 export interface Reforzador {situacion: string, odsPrincipal:string, metaPrincipal: string, dimensiones:string}
+export interface ReforzadorPrincipal {situacion: string, odsPrincipal:string, metaPrincipal: string, dimensiones:string, valoracion:string}
+export interface LiberadorPrincipal {situacion: string, odsPrincipal:string, metaPrincipal: string, dimensiones:string, valoracion: string}
 export interface Liberador {situacion: string, odsPrincipal:string, metaPrincipal: string, dimensiones:string}
 export interface ValoracionTensiones {intensidad: string, impacto: string, cronicidad: string, ingobernabilidad: string}
 export interface Evento {quepasa: string, cuanto: string, donde: string, hacecuanto: string, ods: string, meta: string}
@@ -70,6 +72,18 @@ export default function CrearTension() {
         return metas;
     };
 
+    const handleSubmit = async (e:any) => {
+        setCreadoDialog(true);
+        e.preventDefault();
+        if (currentId === 0) {
+            dispatch(createTension(tensionData));
+            clear();
+        } else {
+            dispatch(updateTension(currentId, tensionData));
+            clear();
+        }
+      };
+
     const processDataDimensionEspecifica = (dimensionGeneral: string) => {
         var dimensiones : string[] = [];
         DimensionesEspecificasLista.map((e) => (
@@ -113,11 +127,10 @@ export default function CrearTension() {
         implicaciones:[{efectos: '', odsPrincipal: '', metaPrincipal: '',  dimensiones:' '}] as Implicacion[],
         implicacionPrincipal:{efectos: '', odsPrincipal: '', metaPrincipal: '',  dimensiones:' '} as Implicacion,
         reforzadores:[{situacion: '', odsPrincipal:'', metaPrincipal: '',  dimensiones:' '}] as Reforzador[],
-        reforzadorPrincipal:{situacion: '', odsPrincipal:'', metaPrincipal: '',  dimensiones:' '} as Reforzador,
+        reforzadorPrincipal:{situacion: '', odsPrincipal:'', metaPrincipal: '',  dimensiones:' ', valoracion:''} as ReforzadorPrincipal,
         liberadores:[{situacion: '', odsPrincipal:'', metaPrincipal: '',  dimensiones:' '}] as Liberador[],
-        liberadorPrincipal:{situacion: '', odsPrincipal:'', metaPrincipal: '',  dimensiones:' '} as Liberador,
+        liberadorPrincipal:{situacion: '', odsPrincipal:'', metaPrincipal: '',  dimensiones:' ', valoracion:''} as LiberadorPrincipal,
         valoracionTensiones: {intensidad: '0', impacto: '0', cronicidad: '0', ingobernabilidad: '0'} as ValoracionTensiones,
-        balanceGeneral: 0,
         balanceTotal: 0,
         narrativa: 'NARRATIVA \n',
     });
@@ -135,11 +148,10 @@ export default function CrearTension() {
             implicaciones:[{efectos: '', odsPrincipal: '', metaPrincipal: '',  dimensiones:' '}] as Implicacion[],
             implicacionPrincipal:{efectos: '', odsPrincipal: '', metaPrincipal: '',  dimensiones:' '} as Implicacion,
             reforzadores:[{situacion: '', odsPrincipal:'', metaPrincipal: '',  dimensiones:' '}] as Reforzador[],
-            reforzadorPrincipal:{situacion: '', odsPrincipal:'', metaPrincipal: '',  dimensiones:' '} as Reforzador,
+            reforzadorPrincipal:{situacion: '', odsPrincipal:'', metaPrincipal: '',  dimensiones:' ',valoracion:''} as ReforzadorPrincipal,
             liberadores:[{situacion: '', odsPrincipal:'', metaPrincipal: '',  dimensiones:' '}] as Liberador[],
-            liberadorPrincipal:{situacion: '', odsPrincipal:'', metaPrincipal: '',  dimensiones:' '} as Liberador,
+            liberadorPrincipal:{situacion: '', odsPrincipal:'', metaPrincipal: '',  dimensiones:' ',valoracion:''} as LiberadorPrincipal,
             valoracionTensiones: {intensidad: '0', impacto: '0', cronicidad: '0', ingobernabilidad: '0'} as ValoracionTensiones,
-            balanceGeneral: 0,
             balanceTotal: 0,
             narrativa:'NARRATIVA \n',
         });
@@ -398,6 +410,11 @@ export default function CrearTension() {
         liberadorNuevo.dimensiones = value;
         setTensionData({ ...tensionData, liberadorPrincipal: liberadorNuevo });
     };
+    const changeLiberadorPrincipalValoracion= (value: string) => {
+        var liberadorNuevo = {...tensionData.liberadorPrincipal}
+        liberadorNuevo.valoracion = value;
+        setTensionData({ ...tensionData, liberadorPrincipal: liberadorNuevo });
+    };
     const changeLiberadorSituacion = (value: string, index: number) => {
         setTensionData(tensionData => {
           const liberador: Liberador[] = [...tensionData.liberadores];
@@ -464,6 +481,11 @@ export default function CrearTension() {
         generadorNuevo.metaPrincipal = value;
         setTensionData({ ...tensionData, reforzadorPrincipal: generadorNuevo });
     };
+    const changeReforzadorPrincipalValoracion = (value: string) => {
+        var reforzadorNuevo = {...tensionData.reforzadorPrincipal}
+        reforzadorNuevo.valoracion = value;
+        setTensionData({ ...tensionData, reforzadorPrincipal: reforzadorNuevo });
+    };
     const changeReforzadorPrincipalSituacion = (value: string) => {
         var generadorNuevo = {...tensionData.reforzadorPrincipal}
         generadorNuevo.situacion = value;
@@ -480,8 +502,11 @@ export default function CrearTension() {
     };
     const changeBalance = () => {
         var valoracionActual = {...tensionData.valoracionTensiones}
+        var valoracionLiberador = {...tensionData.liberadorPrincipal}
+        var valoracionReforzador = {...tensionData.reforzadorPrincipal}
         var suma = parseInt(valoracionActual.cronicidad) + parseInt(valoracionActual.impacto) + parseInt(valoracionActual.ingobernabilidad) + parseInt(valoracionActual.intensidad)
-        var balanceTotalCalculo = suma/4
+        var promedio = suma/4
+        var balanceTotalCalculo = (promedio + parseInt(valoracionReforzador.valoracion))/ parseInt(valoracionLiberador.valoracion)
         setTensionData({ ...tensionData, balanceTotal: balanceTotalCalculo})
     }
     const showGenerador = (generador: Generador, index: number) => {
@@ -797,7 +822,7 @@ export default function CrearTension() {
             <div>
                 <Paper style={{padding:15, margin:5,backgroundColor : "#EAE3D6"}}>
                     <TextField size = "small" value = {tensionData.liberadorPrincipal.situacion} style={{margin:5}} fullWidth id="situacionLiberador" label="Situación" onChange={(e) => changeLiberadorPrincipalSituacion(e.target.value)} />
-                    <FormControl style={{marginTop:10,marginRight:10,maxWidth:320,minWidth:320}} variant="outlined" >
+                    <FormControl style={{marginTop:10,marginRight:10,maxWidth:200,minWidth:200}} variant="outlined" >
                         <InputLabel htmlFor="liberador-ods-native-simple">ODS</InputLabel>
                         <Select
                         value={tensionData.liberadorPrincipal.odsPrincipal}
@@ -814,7 +839,7 @@ export default function CrearTension() {
                         ))}
                         </Select>
                     </FormControl>
-                    <FormControl style={{marginTop:10,marginRight:10,maxWidth:80,minWidth:80}} variant="outlined" >
+                    <FormControl style={{marginTop:10,marginRight:10,maxWidth:60,minWidth:60}} variant="outlined" >
                         <InputLabel htmlFor="LiberadorMeta-meta-native-simple">Meta</InputLabel>
                         <Select
                         value={tensionData.liberadorPrincipal.metaPrincipal}
@@ -831,7 +856,7 @@ export default function CrearTension() {
                         ))}
                         </Select>
                     </FormControl>
-                    <FormControl style={{marginTop:10,marginRight:10,maxWidth:200,minWidth:200}} variant="outlined" >
+                    <FormControl style={{marginTop:10,marginRight:10,maxWidth:180,minWidth:180}} variant="outlined" >
                         <InputLabel htmlFor="DimensiónG-native-simple">Dimensión</InputLabel>
                         <Select
                         value={tensionData.liberadorPrincipal.dimensiones}
@@ -847,7 +872,23 @@ export default function CrearTension() {
                             <option value={d.dimension}>{d.dimension}</option>
                         ))}
                         </Select>
-                    </FormControl>                    
+                    </FormControl>              
+                    <FormControl style={{marginTop:10,marginRight:10,maxWidth:120,minWidth:120}} variant="outlined" >
+                        <InputLabel htmlFor="Valoración-native-simple">Valoración</InputLabel>
+                        <Select
+                            value={tensionData.liberadorPrincipal.valoracion}
+                            onChange = {(e : any) => changeLiberadorPrincipalValoracion(e.target.value as string)}                                                native
+                            label="Valoración"
+                            inputProps={{name:'Valoración-native-simple'}}
+                        >
+                                <option value={''}>{}</option>
+                                <option value={'1'}>{1}</option>
+                                <option value={'2'}>{2}</option>
+                                <option value={'3'}>{3}</option>
+                                <option value={'4'}>{4}</option>
+                                <option value={'5'}>{5}</option>
+                        </Select>
+                    </FormControl>        
                 </Paper>
             </div>
         );
@@ -919,7 +960,7 @@ export default function CrearTension() {
             <div>
                 <Paper style={{padding:15, margin:5,backgroundColor : "#EAE3D6"}}>
                     <TextField size = "small" value = {tensionData.reforzadorPrincipal.situacion} fullWidth style={{margin:5}} id="situacionreforzador" label="Situación" onChange={(e) => changeReforzadorPrincipalSituacion(e.target.value)} />
-                    <FormControl style={{marginTop:10,marginRight:10,maxWidth:320,minWidth:320}} variant="outlined" >
+                    <FormControl style={{marginTop:10,marginRight:10,maxWidth:200,minWidth:200}} variant="outlined" >
                         <InputLabel htmlFor="reforzador-ods-native-simple">ODS</InputLabel>
                         <Select
                         value={tensionData.liberadorPrincipal.odsPrincipal}
@@ -936,7 +977,7 @@ export default function CrearTension() {
                         ))}
                         </Select>
                     </FormControl>
-                    <FormControl style={{marginTop:10,marginRight:10,maxWidth:80,minWidth:80}} variant="outlined" >
+                    <FormControl style={{marginTop:10,marginRight:10,maxWidth:60,minWidth:60}} variant="outlined" >
                         <InputLabel htmlFor="ReforzadorMeta-meta-native-simple">Meta</InputLabel>
                         <Select
                         value={tensionData.liberadorPrincipal.metaPrincipal}
@@ -953,7 +994,7 @@ export default function CrearTension() {
                         ))}
                         </Select>
                     </FormControl>
-                    <FormControl style={{marginTop:10,marginRight:10,maxWidth:200,minWidth:200}} variant="outlined" >
+                    <FormControl style={{marginTop:10,marginRight:10,maxWidth:180,minWidth:180}} variant="outlined" >
                         <InputLabel htmlFor="DimensiónG-native-simple">Dimensión</InputLabel>
                         <Select
                         value={tensionData.liberadorPrincipal.dimensiones}
@@ -969,7 +1010,23 @@ export default function CrearTension() {
                             <option value={d.dimension}>{d.dimension}</option>
                         ))}
                         </Select>
-                    </FormControl>                    
+                    </FormControl>  
+                    <FormControl style={{marginTop:10,marginRight:10,maxWidth:120,minWidth:120}} variant="outlined" >
+                        <InputLabel htmlFor="Valoración-native-simple">Valoración</InputLabel>
+                        <Select
+                            value={tensionData.reforzadorPrincipal.valoracion}
+                            onChange = {(e : any) => changeReforzadorPrincipalValoracion(e.target.value as string)}                                                native
+                            label="Valoración"
+                            inputProps={{name:'Valoración-native-simple'}}
+                        >
+                                <option value={''}>{}</option>
+                                <option value={'1'}>{1}</option>
+                                <option value={'2'}>{2}</option>
+                                <option value={'3'}>{3}</option>
+                                <option value={'4'}>{4}</option>
+                                <option value={'5'}>{5}</option>
+                        </Select>
+                    </FormControl>                        
                 </Paper>
             </div>
         );
@@ -1076,67 +1133,67 @@ export default function CrearTension() {
                     </Grid>
                 </div>
                 );
-                case 1:
-                    return(
-                        <div>
-                        <Grid container direction="row" alignItems="flex-start" justify="center" spacing = {1}>
-                        <Grid item sm={9}>
-                        <Paper style = {{paddingRight:40, paddingLeft:40, paddingBottom:10, paddingTop:10, backgroundColor:"#EAE3D6"}}>
-                            <Grid item sm={12} style={{marginTop:10}} >
-                                <TextField size="small" fullWidth style={{minWidth:300}} id="Quepasa" label="¿Qué pasa?" variant="outlined" value={tensionData.evento.quepasa} onChange={(e) => changeEventoQuePasa(e.target.value)}/>
-                            </Grid>
-                            <Grid item sm={12} style={{marginTop:10}}>
-                                <TextField size="small" fullWidth style={{minWidth:300}} id="Cuanto" label="¿Cuánto?" variant="outlined" value={tensionData.evento.cuanto} onChange={(e) => changeEventoCuanto(e.target.value)}/>
-                            </Grid>
-                            <Grid item sm={12} style={{marginTop:10}}>
-                                <TextField size="small" fullWidth style={{minWidth:300}} id="Donde" label="¿Dónde?" variant="outlined" value={tensionData.evento.donde} onChange={(e) => changeEventoDonde(e.target.value)}/>
-                            </Grid>
-                            <Grid item sm={12} style={{marginTop:10}}>
-                                <TextField size="small" fullWidth style={{minWidth:300}} id="Hacecuanto" label="¿Hace cuánto tiempo?" variant="outlined" value={tensionData.evento.hacecuanto} onChange={(e) => changeEventoHaceCuanto(e.target.value)}/>
-                            </Grid>
-                            <Grid item sm={12} >
-                                <FormControl style={{marginTop:10,marginRight:10,maxWidth:370,minWidth:370}} variant="outlined" >
-                                    <InputLabel htmlFor="outlined-ods-native-simple">ODS</InputLabel>
-                                    <Select
-                                    value={tensionData.evento.ods}
-                                    onChange={(e) => changeEventoOds(e.target.value as string)}
-                                    native
-                                    label="ODS"
-                                    inputProps={{
-                                        name: 'ods',
-                                        id: 'outlined-ods-native-simple',
-                                    }}
-                                    >
-                                    {processDataODSLista().map((odsElem) => (
-                                        <option value={odsElem.ods}>{odsElem.ods}</option>
-                                    ))}
-                                    </Select>
-                                </FormControl>
-                                <FormControl style={{marginTop:10,marginRight:10,maxWidth:400,minWidth:200}} variant="outlined" >
-                                    <InputLabel htmlFor="evento-meta-native-simple">Meta</InputLabel>
-                                    <Select
-                                    value={tensionData.evento.meta}
-                                    onChange={(e) => changeEventoMeta(e.target.value as string)}
-                                    native
-                                    label="Meta"
-                                    inputProps={{
-                                        name: 'meta',
-                                        id: 'evento-meta-native-simple',
-                                    }}
-                                    >
-                                    {processDataMetas(tensionData.evento.ods).map((meta) => (
-                                        <option value={meta}>{meta}</option>
-                                    ))}
-                                    </Select>
-                                </FormControl>
+            case 1:
+                return(
+                    <div>
+                    <Grid container direction="row" alignItems="flex-start" justify="center" spacing = {1}>
+                    <Grid item sm={9}>
+                    <Paper style = {{paddingRight:40, paddingLeft:40, paddingBottom:10, paddingTop:10, backgroundColor:"#EAE3D6"}}>
+                        <Grid item sm={12} style={{marginTop:10}} >
+                            <TextField size="small" fullWidth style={{minWidth:300}} id="Quepasa" label="¿Qué pasa?" variant="outlined" value={tensionData.evento.quepasa} onChange={(e) => changeEventoQuePasa(e.target.value)}/>
                         </Grid>
-                    </Paper>
+                        <Grid item sm={12} style={{marginTop:10}}>
+                            <TextField size="small" fullWidth style={{minWidth:300}} id="Cuanto" label="¿Cuánto?" variant="outlined" value={tensionData.evento.cuanto} onChange={(e) => changeEventoCuanto(e.target.value)}/>
+                        </Grid>
+                        <Grid item sm={12} style={{marginTop:10}}>
+                            <TextField size="small" fullWidth style={{minWidth:300}} id="Donde" label="¿Dónde?" variant="outlined" value={tensionData.evento.donde} onChange={(e) => changeEventoDonde(e.target.value)}/>
+                        </Grid>
+                        <Grid item sm={12} style={{marginTop:10}}>
+                            <TextField size="small" fullWidth style={{minWidth:300}} id="Hacecuanto" label="¿Hace cuánto tiempo?" variant="outlined" value={tensionData.evento.hacecuanto} onChange={(e) => changeEventoHaceCuanto(e.target.value)}/>
+                        </Grid>
+                        <Grid item sm={12} >
+                            <FormControl style={{marginTop:10,marginRight:10,maxWidth:370,minWidth:370}} variant="outlined" >
+                                <InputLabel htmlFor="outlined-ods-native-simple">ODS</InputLabel>
+                                <Select
+                                value={tensionData.evento.ods}
+                                onChange={(e) => changeEventoOds(e.target.value as string)}
+                                native
+                                label="ODS"
+                                inputProps={{
+                                    name: 'ods',
+                                    id: 'outlined-ods-native-simple',
+                                }}
+                                >
+                                {processDataODSLista().map((odsElem) => (
+                                    <option value={odsElem.ods}>{odsElem.ods}</option>
+                                ))}
+                                </Select>
+                            </FormControl>
+                            <FormControl style={{marginTop:10,marginRight:10,maxWidth:400,minWidth:200}} variant="outlined" >
+                                <InputLabel htmlFor="evento-meta-native-simple">Meta</InputLabel>
+                                <Select
+                                value={tensionData.evento.meta}
+                                onChange={(e) => changeEventoMeta(e.target.value as string)}
+                                native
+                                label="Meta"
+                                inputProps={{
+                                    name: 'meta',
+                                    id: 'evento-meta-native-simple',
+                                }}
+                                >
+                                {processDataMetas(tensionData.evento.ods).map((meta) => (
+                                    <option value={meta}>{meta}</option>
+                                ))}
+                                </Select>
+                            </FormControl>
                     </Grid>
-                    <Grid item sm={3}>
-                        {showNarrativa()}
-                    </Grid>
+                </Paper>
                 </Grid>
-                </div>
+                <Grid item sm={3}>
+                    {showNarrativa()}
+                </Grid>
+            </Grid>
+            </div>
             );
             case 2:
                 return(
@@ -1161,176 +1218,176 @@ export default function CrearTension() {
                                 </Grid>
                             </Grid> 
                         </Grid> 
-                 </Grid>
+                    </Grid>
                 );
-                case 3:
-                    return(
-                    <Grid container direction="column" alignItems="flex-start" justify="center" spacing = {1}>
-                        <Grid style={{marginTop:20}}>    
-                            <Grid container direction="row" alignItems="flex-start" justify="center" spacing = {1}>
-                                <Grid item sm={9}>
-                                    {showImplicacionPrincipal()}
-                                    <Divider style={{marginTop:20,marginBottom:20}}/>
-                                    <Grid container item direction="row" justify="space-between"> 
-                                        <Typography  variant={"h6"} style={{margin:10}} color="primary" display="block" >Complementarios</Typography>
-                                        <Button variant="contained" onClick = {() => addImplicacion()} style={{marginBottom:10}}  color="primary">
-                                            Crear Implicación
-                                        </Button>
-                                    </Grid>
-                                    {tensionData.implicaciones.map((implicacion, index) => (
-                                        showImplicacion(implicacion, index)
-                                    ))}    
-                                </Grid> 
-                                    <Grid item sm={3}>
-                                        {showNarrativa()} 
-                                    </Grid>
-                                </Grid> 
-                            </Grid> 
-                     </Grid>
-                    );
-                    case 4:
-                        return(
-                        <Grid container direction="column" alignItems="flex-start" justify="center" spacing = {1}>
-                            <Grid style={{marginTop:20}}>    
-                                <Grid container direction="row" alignItems="flex-start" justify="center" spacing = {1}>
-                                    <Grid item sm={9}>
-                                        {showReforzadorPrincipal()}
-                                        <Divider style={{marginTop:20,marginBottom:20}}/>
-                                        <Grid container item direction="row" justify="space-between"> 
-                                            <Typography  variant={"h6"} style={{margin:10}} color="primary" display="block" >Complementarios</Typography>
-                                            <Button variant="contained" onClick = {() => addReforzador()} style={{marginBottom:10}}  color="primary">
-                                                Crear Reforzador
-                                            </Button>
-                                        </Grid>
-                                        {tensionData.reforzadores.map((reforzador, index) => (
-                                            showReforzador(reforzador, index)
-                                        ))}    
-                                    </Grid> 
-                                        <Grid item sm={3}>
-                                            {showNarrativa()} 
-                                        </Grid>
-                                    </Grid> 
-                                </Grid> 
-                            </Grid>
-                        );
-                        case 5:
-                            return(
-                            <Grid container direction="column" alignItems="flex-start" justify="center" spacing = {1}>
-                                <Grid style={{marginTop:20}}>    
-                                    <Grid container direction="row" alignItems="flex-start" justify="center" spacing = {1}>
-                                        <Grid item sm={9}>
-                                            {showLiberadorPrincipal()}
-                                            <Divider style={{marginTop:20,marginBottom:20}}/>
-                                            <Grid container item direction="row" justify="space-between"> 
-                                                <Typography  variant={"h6"} style={{margin:10}} color="primary" display="block" >Complementarios</Typography>
-                                                <Button variant="contained" onClick = {() => addLiberador()} style={{marginBottom:10}}  color="primary">
-                                                    Crear Liberador
-                                                </Button>
-                                            </Grid>
-                                            {tensionData.liberadores.map((liberador, index) => (
-                                                showLiberador(liberador, index)
-                                            ))}    
-                                        </Grid> 
-                                            <Grid item sm={3}>
-                                                {showNarrativa()} 
-                                            </Grid>
-                                        </Grid> 
-                                    </Grid> 
+            case 3:
+                return(
+                <Grid container direction="column" alignItems="flex-start" justify="center" spacing = {1}>
+                    <Grid style={{marginTop:20}}>    
+                        <Grid container direction="row" alignItems="flex-start" justify="center" spacing = {1}>
+                            <Grid item sm={9}>
+                                {showImplicacionPrincipal()}
+                                <Divider style={{marginTop:20,marginBottom:20}}/>
+                                <Grid container item direction="row" justify="space-between"> 
+                                    <Typography  variant={"h6"} style={{margin:10}} color="primary" display="block" >Complementarios</Typography>
+                                    <Button variant="contained" onClick = {() => addImplicacion()} style={{marginBottom:10}}  color="primary">
+                                        Crear Implicación
+                                    </Button>
                                 </Grid>
-                            );
-                            case 6:
-                                return(
-                                    <Grid item container direction="row" alignItems="center" justify="center">   
-                                        <Grid item container sm={2} direction="column" alignItems="center" justify="center">
-                                            <Grid sm={12} style={{marginTop:20}}>     
-                                                <FormControl style={{marginTop:10,marginRight:10,maxWidth:130,minWidth:130}} variant="outlined" >
-                                                    <InputLabel htmlFor="Cronicidad-native-simple">Cronicidad</InputLabel>
-                                                    <Select
-                                                        value={tensionData.valoracionTensiones.cronicidad}
-                                                        onChange = {(val : any) => updateCronicidad(val.target.value as string)}                                                native
-                                                        label="Cronicidad"
-                                                        inputProps={{ name: 'Cronicidad-native-simple', }}
-                                                    >
-                                                            <option value={''}>{}</option>
-                                                            <option value={'1'}>{1}</option>
-                                                            <option value={'2'}>{2}</option>
-                                                            <option value={'3'}>{3}</option>
-                                                            <option value={'4'}>{4}</option>
-                                                            <option value={'5'}>{5}</option>
-                                                    </Select>
-                                                </FormControl>          
-                                            </Grid>
-                                            <Grid sm={12} style={{marginTop:20}}>     
-                                                <FormControl style={{marginTop:10,marginRight:10,maxWidth:130,minWidth:130}} variant="outlined" >
-                                                    <InputLabel htmlFor="Impacto-native-simple">Impacto</InputLabel>
-                                                    <Select
-                                                        value={tensionData.valoracionTensiones.impacto}
-                                                        onChange = {(val : any) => updateImpacto(val.target.value as string)}                                                native
-                                                        label="Impacto"
-                                                        inputProps={{name:'Impacto-native-simple'}}
-                                                    >
-                                                            <option value={''}>{}</option>
-                                                            <option value={'1'}>{1}</option>
-                                                            <option value={'2'}>{2}</option>
-                                                            <option value={'3'}>{3}</option>
-                                                            <option value={'4'}>{4}</option>
-                                                            <option value={'5'}>{5}</option>
-                                                    </Select>
-                                                </FormControl>          
-                                            </Grid>
-                                            <Grid sm={12} style={{marginTop:20}}>     
-                                                <FormControl style={{marginTop:10,marginRight:10,maxWidth:130,minWidth:130}} variant="outlined" >
-                                                    <InputLabel htmlFor="Ingobernabilidad-native-simple">Ingobernabilidad</InputLabel>
-                                                    <Select
-                                                        value={tensionData.valoracionTensiones.ingobernabilidad}
-                                                        onChange = {(e : any) => updateIngobernabilidad(e.target.value as string)}                                                native
-                                                        label="Ingobernabilidad"
-                                                        inputProps={{name:'Ingobernabilidad-native-simple'}}
-                                                    >
-                                                            <option value={''}>{}</option>
-                                                            <option value={'1'}>{1}</option>
-                                                            <option value={'2'}>{2}</option>
-                                                            <option value={'3'}>{3}</option>
-                                                            <option value={'4'}>{4}</option>
-                                                            <option value={'5'}>{5}</option>
-                                                    </Select>
-                                                </FormControl>          
-                                            </Grid>
-                                            <Grid sm={12} style={{marginTop:20}}>     
-                                                <FormControl style={{marginTop:10,marginRight:10,maxWidth:130,minWidth:130}} variant="outlined" >
-                                                    <InputLabel htmlFor="Intensidad-native-simple">Intensidad</InputLabel>
-                                                    <Select
-                                                        value={tensionData.valoracionTensiones.intensidad}
-                                                        onChange = {(val : any) => updateIntensidad(val.target.value as string)}                                                native
-                                                        label="Intensidad"
-                                                        inputProps={{name:'Intensidad-native-simple'}}
-                                                    >
-                                                            <option value={''}>{}</option>
-                                                            <option value={'1'}>{1}</option>
-                                                            <option value={'2'}>{2}</option>
-                                                            <option value={'3'}>{3}</option>
-                                                            <option value={'4'}>{4}</option>
-                                                            <option value={'5'}>{5}</option>
-                                                    </Select>
-                                                </FormControl>          
-                                            </Grid>
-                                        </Grid>
-                                        <Grid item container sm={6} direction="column" alignItems="center" justify="center">
-                                            <Button variant="contained" onClick = {() => changeBalance()} style={{marginBottom:10}}  color="primary">
-                                                Calcular balance
-                                            </Button>
-                                            <Grid direction="column">
-                                                <Grid>
-                                                    <Typography  variant={"h5"} color="primary" display="block" >{tensionData.balanceTotal === 0 ? "" : "Balance "+tensionData.balanceTotal} </Typography>
-                                                </Grid>
-                                            </Grid>
-                                        </Grid>
-                                        <Grid item sm={3}>
-                                            {showNarrativa()} 
-                                        </Grid>
-                                    </Grid>
-                                
-                            );
+                                {tensionData.implicaciones.map((implicacion, index) => (
+                                    showImplicacion(implicacion, index)
+                                ))}    
+                            </Grid> 
+                                <Grid item sm={3}>
+                                    {showNarrativa()} 
+                                </Grid>
+                            </Grid> 
+                        </Grid> 
+                    </Grid>
+                );
+            case 4:
+                return(
+                <Grid container direction="column" alignItems="flex-start" justify="center" spacing = {1}>
+                    <Grid style={{marginTop:20}}>    
+                        <Grid container direction="row" alignItems="flex-start" justify="center" spacing = {1}>
+                            <Grid item sm={9}>
+                                {showReforzadorPrincipal()}
+                                <Divider style={{marginTop:20,marginBottom:20}}/>
+                                <Grid container item direction="row" justify="space-between"> 
+                                    <Typography  variant={"h6"} style={{margin:10}} color="primary" display="block" >Complementarios</Typography>
+                                    <Button variant="contained" onClick = {() => addReforzador()} style={{marginBottom:10}}  color="primary">
+                                        Crear Reforzador
+                                    </Button>
+                                </Grid>
+                                {tensionData.reforzadores.map((reforzador, index) => (
+                                    showReforzador(reforzador, index)
+                                ))}    
+                            </Grid> 
+                                <Grid item sm={3}>
+                                    {showNarrativa()} 
+                                </Grid>
+                            </Grid> 
+                        </Grid> 
+                    </Grid>
+                );
+            case 5:
+                return(
+                <Grid container direction="column" alignItems="flex-start" justify="center" spacing = {1}>
+                    <Grid style={{marginTop:20}}>    
+                        <Grid container direction="row" alignItems="flex-start" justify="center" spacing = {1}>
+                            <Grid item sm={9}>
+                                {showLiberadorPrincipal()}
+                                <Divider style={{marginTop:20,marginBottom:20}}/>
+                                <Grid container item direction="row" justify="space-between"> 
+                                    <Typography  variant={"h6"} style={{margin:10}} color="primary" display="block" >Complementarios</Typography>
+                                    <Button variant="contained" onClick = {() => addLiberador()} style={{marginBottom:10}}  color="primary">
+                                        Crear Liberador
+                                    </Button>
+                                </Grid>
+                                {tensionData.liberadores.map((liberador, index) => (
+                                    showLiberador(liberador, index)
+                                ))}    
+                            </Grid> 
+                                <Grid item sm={3}>
+                                    {showNarrativa()} 
+                                </Grid>
+                            </Grid> 
+                        </Grid> 
+                    </Grid>
+                );
+            case 6:
+                return(
+                    <Grid item container direction="row" alignItems="center" justify="center">   
+                        <Grid item container sm={2} direction="column" alignItems="center" justify="center">
+                            <Grid sm={12} style={{marginTop:20}}>     
+                                <FormControl style={{marginTop:10,marginRight:10,maxWidth:130,minWidth:130}} variant="outlined" >
+                                    <InputLabel htmlFor="Cronicidad-native-simple">Cronicidad</InputLabel>
+                                    <Select
+                                        value={tensionData.valoracionTensiones.cronicidad}
+                                        onChange = {(val : any) => updateCronicidad(val.target.value as string)}                                                native
+                                        label="Cronicidad"
+                                        inputProps={{ name: 'Cronicidad-native-simple', }}
+                                    >
+                                            <option value={''}>{}</option>
+                                            <option value={'1'}>{1}</option>
+                                            <option value={'2'}>{2}</option>
+                                            <option value={'3'}>{3}</option>
+                                            <option value={'4'}>{4}</option>
+                                            <option value={'5'}>{5}</option>
+                                    </Select>
+                                </FormControl>          
+                            </Grid>
+                            <Grid sm={12} style={{marginTop:20}}>     
+                                <FormControl style={{marginTop:10,marginRight:10,maxWidth:130,minWidth:130}} variant="outlined" >
+                                    <InputLabel htmlFor="Impacto-native-simple">Impacto</InputLabel>
+                                    <Select
+                                        value={tensionData.valoracionTensiones.impacto}
+                                        onChange = {(val : any) => updateImpacto(val.target.value as string)}                                                native
+                                        label="Impacto"
+                                        inputProps={{name:'Impacto-native-simple'}}
+                                    >
+                                            <option value={''}>{}</option>
+                                            <option value={'1'}>{1}</option>
+                                            <option value={'2'}>{2}</option>
+                                            <option value={'3'}>{3}</option>
+                                            <option value={'4'}>{4}</option>
+                                            <option value={'5'}>{5}</option>
+                                    </Select>
+                                </FormControl>          
+                            </Grid>
+                            <Grid sm={12} style={{marginTop:20}}>     
+                                <FormControl style={{marginTop:10,marginRight:10,maxWidth:130,minWidth:130}} variant="outlined" >
+                                    <InputLabel htmlFor="Ingobernabilidad-native-simple">Ingobernabilidad</InputLabel>
+                                    <Select
+                                        value={tensionData.valoracionTensiones.ingobernabilidad}
+                                        onChange = {(e : any) => updateIngobernabilidad(e.target.value as string)}                                                native
+                                        label="Ingobernabilidad"
+                                        inputProps={{name:'Ingobernabilidad-native-simple'}}
+                                    >
+                                            <option value={''}>{}</option>
+                                            <option value={'1'}>{1}</option>
+                                            <option value={'2'}>{2}</option>
+                                            <option value={'3'}>{3}</option>
+                                            <option value={'4'}>{4}</option>
+                                            <option value={'5'}>{5}</option>
+                                    </Select>
+                                </FormControl>          
+                            </Grid>
+                            <Grid sm={12} style={{marginTop:20}}>     
+                                <FormControl style={{marginTop:10,marginRight:10,maxWidth:130,minWidth:130}} variant="outlined" >
+                                    <InputLabel htmlFor="Intensidad-native-simple">Intensidad</InputLabel>
+                                    <Select
+                                        value={tensionData.valoracionTensiones.intensidad}
+                                        onChange = {(val : any) => updateIntensidad(val.target.value as string)}                                                native
+                                        label="Intensidad"
+                                        inputProps={{name:'Intensidad-native-simple'}}
+                                    >
+                                            <option value={''}>{}</option>
+                                            <option value={'1'}>{1}</option>
+                                            <option value={'2'}>{2}</option>
+                                            <option value={'3'}>{3}</option>
+                                            <option value={'4'}>{4}</option>
+                                            <option value={'5'}>{5}</option>
+                                    </Select>
+                                </FormControl>          
+                            </Grid>
+                        </Grid>
+                        <Grid item container sm={6} direction="column" alignItems="center" justify="center">
+                            <Button variant="contained" onClick = {() => changeBalance()} style={{marginBottom:10}}  color="primary">
+                                Calcular balance
+                            </Button>
+                            <Grid direction="column">
+                                <Grid style={{margin:20}}>
+\                                   <Typography variant={'body1'}> {tensionData.balanceTotal !== 0 ? "Balance "+tensionData.balanceTotal :''} </Typography>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                        <Grid item sm={3}>
+                            {showNarrativa()} 
+                        </Grid>
+                    </Grid>
+                
+            );
                     
                             
         }
@@ -1339,6 +1396,7 @@ export default function CrearTension() {
     return(
         <div style={{ backgroundColor: "#F0EDE7", minHeight: "100vh" ,  overflowX: 'hidden', overflowY: 'hidden'}}>
             <div style={{ marginTop: 20, marginLeft: 30, marginRight: 50}}>
+                <form onSubmit={handleSubmit}>
                     <Grid container direction="row" alignItems="center" justify="center" spacing = {1}>
                         <Grid container item sm={12} direction="row" justify="space-between"> 
                             <Grid item >
@@ -1346,7 +1404,7 @@ export default function CrearTension() {
                             </Grid>
                             <Grid item >
                                 <Button variant="contained" color="secondary" size="large" style={{margin:5}} onClick={clear} >Resetear</Button>
-                                <Button  variant="contained" color="primary" size="large" style={{margin:5}}> Crear Tension </Button>
+                                <Button onClick={handleSubmit} variant="contained" color="primary" size="large" style={{margin:5}}> Crear Tension </Button>
                             </Grid>
                         </Grid>  
                         <Grid sm={12}>
@@ -1393,7 +1451,7 @@ export default function CrearTension() {
                                 )}
                         </Grid>  
                     </Grid>   
-                
+                </form>
             </div>
         </div> 
     );
