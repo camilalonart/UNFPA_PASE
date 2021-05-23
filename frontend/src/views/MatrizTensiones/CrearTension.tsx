@@ -43,23 +43,23 @@ const useStyles = makeStyles((theme) => ({
 }));
 const marks = [
     {
-      value: 10,
+      value: 1,
       label: '1',
     },
     {
-      value: 20,
+      value: 2,
       label: '2',
     },
     {
-      value: 30,
+      value: 3,
       label: '3',
     },
     {
-      value: 40,
+      value: 4,
       label: '4',
     },
     {
-      value: 50,
+      value: 5,
       label: '5',
     },
   ];
@@ -214,28 +214,24 @@ export default function CrearTension() {
         });
     };
     const updateImpacto = (value: number) => {
-        var valoracionChange = {...tensionData.valoracionTensiones}
-        valoracionChange.impacto = value;
-        setTensionData({ ...tensionData, valoracionTensiones: valoracionChange });
-        changeBalance();
+        var valorado = {...tensionData.valoracionTensiones}
+        valorado.impacto = value;
+        setTensionData({ ...tensionData, valoracionTensiones: valorado });
     };
     const updateIntensidad = (value : number) => {
         var valoracionChange = {...tensionData.valoracionTensiones}
         valoracionChange.intensidad = value;
         setTensionData({ ...tensionData, valoracionTensiones: valoracionChange });
-        changeBalance();
     };
     const updateCronicidad = (value : number) => {
         var valoracionChange = {...tensionData.valoracionTensiones}
         valoracionChange.cronicidad = value;
         setTensionData({ ...tensionData, valoracionTensiones: valoracionChange });
-        changeBalance();
     };
     const updateIngobernabilidad = (value : number) => {
         var valoracionChange = {...tensionData.valoracionTensiones}
         valoracionChange.ingobernabilidad = value;
         setTensionData({ ...tensionData, valoracionTensiones: valoracionChange });
-        changeBalance();
     };
     const deleteGenerador = (index: number) => {
         setTensionData(tensionData => {
@@ -504,7 +500,7 @@ export default function CrearTension() {
         setTensionData({ ...tensionData, narrativa: narrativaTexto});
     };
     const changeBalance = () => {
-        const balanceTotalCalculo = (tensionData.valoracionTensiones.cronicidad as number + tensionData.valoracionTensiones.impacto as number + tensionData.valoracionTensiones.intensidad as number + tensionData.valoracionTensiones.ingobernabilidad as number)/4;
+        const balanceTotalCalculo = (tensionData.valoracionTensiones.cronicidad + tensionData.valoracionTensiones.impacto + tensionData.valoracionTensiones.intensidad + tensionData.valoracionTensiones.ingobernabilidad)/4;
         setTensionData({ ...tensionData, balanceTotal: balanceTotalCalculo})
     }
     const showGenerador = (generador: Generador, index: number) => {
@@ -1270,11 +1266,10 @@ export default function CrearTension() {
                                                     <InputLabel htmlFor="Cronicidad-native-simple">Cronicidad</InputLabel>
                                                     <Select
                                                         value={tensionData.valoracionTensiones.cronicidad}
-                                                        onChange = {(val : any) => updateCronicidad(val as number)}                                                native
+                                                        onChange = {(val : any) => updateCronicidad(val.target.value as number)}                                                native
                                                         label="Cronicidad"
                                                         inputProps={{ name: 'Cronicidad-native-simple', }}
                                                     >
-                                                            <option value={0}>{0}</option>
                                                             <option value={1}>{1}</option>
                                                             <option value={2}>{2}</option>
                                                             <option value={3}>{3}</option>
@@ -1288,11 +1283,10 @@ export default function CrearTension() {
                                                     <InputLabel htmlFor="Impacto-native-simple">Impacto</InputLabel>
                                                     <Select
                                                         value={tensionData.valoracionTensiones.impacto}
-                                                        onChange = {(val : any) => updateImpacto(val as number)}                                                native
+                                                        onChange = {(val : any) => updateImpacto(val.target.value as number)}                                                native
                                                         label="Impacto"
                                                         inputProps={{name:'Impacto-native-simple'}}
                                                     >
-                                                            <option value={0}>{0}</option>
                                                             <option value={1}>{1}</option>
                                                             <option value={2}>{2}</option>
                                                             <option value={3}>{3}</option>
@@ -1303,14 +1297,13 @@ export default function CrearTension() {
                                             </Grid>
                                             <Grid sm={12} style={{marginTop:20}}>     
                                                 <FormControl style={{marginTop:10,marginRight:10,maxWidth:130,minWidth:130}} variant="outlined" >
-                                                    <InputLabel htmlFor="Impacto-native-simple">Ingobernabilidad</InputLabel>
+                                                    <InputLabel htmlFor="Ingobernabilidad-native-simple">Ingobernabilidad</InputLabel>
                                                     <Select
                                                         value={tensionData.valoracionTensiones.ingobernabilidad}
-                                                        onChange = {(val : any) => updateIngobernabilidad(val as number)}                                                native
+                                                        onChange = {(e : any) => updateIngobernabilidad(e.target.value as number)}                                                native
                                                         label="Ingobernabilidad"
                                                         inputProps={{name:'Ingobernabilidad-native-simple'}}
                                                     >
-                                                            <option value={0}>{0}</option>
                                                             <option value={1}>{1}</option>
                                                             <option value={2}>{2}</option>
                                                             <option value={3}>{3}</option>
@@ -1324,11 +1317,10 @@ export default function CrearTension() {
                                                     <InputLabel htmlFor="Intensidad-native-simple">Intensidad</InputLabel>
                                                     <Select
                                                         value={tensionData.valoracionTensiones.intensidad}
-                                                        onChange = {(val : any) => updateIntensidad(val as number)}                                                native
+                                                        onChange = {(val : any) => updateIntensidad(val.target.value as number)}                                                native
                                                         label="Intensidad"
                                                         inputProps={{name:'Intensidad-native-simple'}}
                                                     >
-                                                            <option value={0}>{0}</option>
                                                             <option value={1}>{1}</option>
                                                             <option value={2}>{2}</option>
                                                             <option value={3}>{3}</option>
@@ -1339,6 +1331,10 @@ export default function CrearTension() {
                                             </Grid>
                                         </Grid>
                                         <Grid item container sm={4} direction="row" alignItems="center" justify="center">
+                                            <Button variant="contained" onClick = {() => changeBalance()} style={{marginBottom:10}}  color="primary">
+                                                Calcular balance
+                                            </Button>
+                                            <Typography  variant={"h5"} color="primary" display="block" >Balance {tensionData.balanceTotal}</Typography>
                                             <Chart
                                                 width={100}
                                                 height={100}
