@@ -3,7 +3,8 @@ import ReactDOM from "react-dom";
 import { createBrowserHistory } from "history";
 import { Router, Route, Switch,HashRouter } from "react-router-dom";
 
-// core components
+import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+
 import Admin from "layouts/Admin.js";
 import AdminTensiones from "layouts/AdminTensiones.js";
 
@@ -23,13 +24,35 @@ const store = createStore(reducers, compose(applyMiddleware(thunk)));
 
 const hist = createBrowserHistory();
 
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: "#FF9C00", 
+      /*Naranja */ 
+    },
+    secondary: {
+      main: "#F0EDE7",
+      /*Beige */ 
+    },
+    warning: {
+      main: "#F0EDE7",
+      /*Rosado 2*/ 
+    },
+    success: {
+      main: "#E8853E",
+      /*Naranja 2 */ 
+    },
+  },
+});
 ReactDOM.render(
   <Provider store={store}>
     <HashRouter>
       <Switch>
-        <Route path="/tension/crear" component={AdminTensiones}/>
-        <Route path="/admin/model" component={Admin} />
-        <Route path="/" component={Home} />
+        <ThemeProvider theme={theme}>
+          <Route path="/tension/crear" component={AdminTensiones}/>
+          <Route path="/admin/model" component={Admin} />
+          <Route path="/" component={Home} />
+        </ThemeProvider>
       </Switch>
     </HashRouter>
   </Provider>,

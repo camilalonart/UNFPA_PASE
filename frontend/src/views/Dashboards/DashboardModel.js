@@ -19,7 +19,6 @@ import { ResponsiveBar } from '@nivo/bar'
 
 import Chart from "react-google-charts";
 
-
 import {
   ResponsiveContainer
 } from "recharts";

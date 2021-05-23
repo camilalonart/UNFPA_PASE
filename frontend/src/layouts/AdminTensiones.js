@@ -54,9 +54,7 @@ export default function AdminTensiones({ ...rest }) {
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
-  const getRoute = () => {
-    return window.location.pathname !== "/tension/crear";
-  };
+ 
   const resizeFunction = () => {
     if (window.innerWidth >= 960) {
       setMobileOpen(false);
@@ -90,14 +88,11 @@ export default function AdminTensiones({ ...rest }) {
       />
 
       <div className={classes.mainPanel} ref={mainPanel}>
-        {getRoute() ? (
+        {
           <div className={classes.content}>
             <div className={classes.container}>{switchRoutes}</div>
           </div>
-        ) : (
-          <div className={classes.map}>{switchRoutes}</div>
-        )}
-        {getRoute() ? <Footer /> : null}
+        }
       </div>
     </div>
   );
