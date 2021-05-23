@@ -4,16 +4,15 @@ import PerfectScrollbar from "perfect-scrollbar";
 import "perfect-scrollbar/css/perfect-scrollbar.css";
 import { makeStyles } from "@material-ui/core/styles";
 import Dashboard from "@material-ui/icons/Dashboard";
+import Footer from "components/Footer/Footer.js";
 import Sidebar from "components/Sidebar/Sidebar.js";
 import HomePage from "../views/Home/Home.js";
-
-import Settings from "@material-ui/icons/Settings";
-import TrendingUp from "@material-ui/icons/TrendingUp";
-import AppsIcon from '@material-ui/icons/Apps';
-
 import DashboardTopicDetail from "../views/Dashboards/DashboardTopicDetail.js";
 import DashboardGeneral from "../views/Dashboards/Dashboard.js";
 import DashboardModel from "../views/Dashboards/DashboardModel.js";
+import Settings from "@material-ui/icons/Settings";
+import TrendingUp from "@material-ui/icons/TrendingUp";
+import AppsIcon from '@material-ui/icons/Apps';
 
 import styles from "assets/jss/material-dashboard-react/layouts/adminStyle.js";
 
@@ -81,14 +80,16 @@ export default function Admin({ ...rest }) {
         }
         return null;
       })}
-      <Redirect from="/admin" to="/admin/model" />
+      <Redirect from="/admin" to="/admin/dashboard" />
     </Switch>
   );
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
-
+  const getRoute = () => {
+    return window.location.pathname !== "/admin/maps";
+  };
   const resizeFunction = () => {
     if (window.innerWidth >= 960) {
       setMobileOpen(false);
@@ -122,9 +123,14 @@ export default function Admin({ ...rest }) {
       />
 
       <div className={classes.mainPanel} ref={mainPanel}>
-        {<div className={classes.content}>
-          <div className={classes.container}>{switchRoutes}</div>
-        </div>}
+        {getRoute() ? (
+          <div className={classes.content}>
+            <div className={classes.container}>{switchRoutes}</div>
+          </div>
+        ) : (
+          <div className={classes.map}>{switchRoutes}</div>
+        )}
+        {getRoute() ? <Footer /> : null}
       </div>
     </div>
   );

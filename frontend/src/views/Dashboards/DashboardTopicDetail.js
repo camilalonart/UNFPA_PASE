@@ -66,7 +66,7 @@ export default function DashboardModel(props) {
       <CssBaseline />
       <main className={classes.content}>
         <div className={classes.toolbar} />  
-          {WordsResults.map((topic) => (
+          {WordsResults.map((topic) => ( 
             <div>
               <Grid container direction="column" justify="flex-start" alignItems="flex-start">
                 <Grid container direction="row" justify="flex-start" alignItems="flex-start">
