@@ -11,7 +11,7 @@ import FiberManualRecordTwoToneIcon from '@material-ui/icons/FiberManualRecordTw
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import { useDispatch, RootStateOrAny, useSelector } from 'react-redux';
 
-import Chart from "react-google-charts";
+import GaugeChart from 'react-gauge-chart'
 
 import MetasLista from '../../InfoMatriz/metas.json';
 import ODSLista from '../../InfoMatriz/ods.json';
@@ -26,7 +26,7 @@ export interface Generador {situacion: string, actores: string, odsPrincipal:str
 export interface Implicacion {efectos: string, odsPrincipal: string, metaPrincipal: string, dimensiones:string}
 export interface Reforzador {situacion: string, odsPrincipal:string, metaPrincipal: string, dimensiones:string}
 export interface Liberador {situacion: string, odsPrincipal:string, metaPrincipal: string, dimensiones:string}
-export interface ValoracionTensiones {intensidad: number, impacto: number, cronicidad: number, ingobernabilidad: number}
+export interface ValoracionTensiones {intensidad: string, impacto: string, cronicidad: string, ingobernabilidad: string}
 export interface Evento {quepasa: string, cuanto: string, donde: string, hacecuanto: string, ods: string, meta: string}
 
 const useStyles = makeStyles((theme) => ({
@@ -41,28 +41,7 @@ const useStyles = makeStyles((theme) => ({
       marginBottom: theme.spacing(1),
     },
 }));
-const marks = [
-    {
-      value: 1,
-      label: '1',
-    },
-    {
-      value: 2,
-      label: '2',
-    },
-    {
-      value: 3,
-      label: '3',
-    },
-    {
-      value: 4,
-      label: '4',
-    },
-    {
-      value: 5,
-      label: '5',
-    },
-  ];
+
 export default function CrearTension() {
     const [currentId, setCurrentId] = useState(0);
     const classes = useStyles();
@@ -137,7 +116,7 @@ export default function CrearTension() {
         reforzadorPrincipal:{situacion: '', odsPrincipal:'', metaPrincipal: '',  dimensiones:' '} as Reforzador,
         liberadores:[{situacion: '', odsPrincipal:'', metaPrincipal: '',  dimensiones:' '}] as Liberador[],
         liberadorPrincipal:{situacion: '', odsPrincipal:'', metaPrincipal: '',  dimensiones:' '} as Liberador,
-        valoracionTensiones: {intensidad: 0, impacto: 0, cronicidad: 0, ingobernabilidad: 0} as ValoracionTensiones,
+        valoracionTensiones: {intensidad: '0', impacto: '0', cronicidad: '0', ingobernabilidad: '0'} as ValoracionTensiones,
         balanceGeneral: 0,
         balanceTotal: 0,
         narrativa: 'NARRATIVA \n',
@@ -159,7 +138,7 @@ export default function CrearTension() {
             reforzadorPrincipal:{situacion: '', odsPrincipal:'', metaPrincipal: '',  dimensiones:' '} as Reforzador,
             liberadores:[{situacion: '', odsPrincipal:'', metaPrincipal: '',  dimensiones:' '}] as Liberador[],
             liberadorPrincipal:{situacion: '', odsPrincipal:'', metaPrincipal: '',  dimensiones:' '} as Liberador,
-            valoracionTensiones: {intensidad: 0, impacto: 0, cronicidad: 0, ingobernabilidad: 0} as ValoracionTensiones,
+            valoracionTensiones: {intensidad: '0', impacto: '0', cronicidad: '0', ingobernabilidad: '0'} as ValoracionTensiones,
             balanceGeneral: 0,
             balanceTotal: 0,
             narrativa:'NARRATIVA \n',
@@ -213,22 +192,22 @@ export default function CrearTension() {
           return {...tensionData, implicaciones: implicacionesLista }
         });
     };
-    const updateImpacto = (value: number) => {
+    const updateImpacto = (value: string) => {
         var valorado = {...tensionData.valoracionTensiones}
         valorado.impacto = value;
         setTensionData({ ...tensionData, valoracionTensiones: valorado });
     };
-    const updateIntensidad = (value : number) => {
+    const updateIntensidad = (value : string) => {
         var valoracionChange = {...tensionData.valoracionTensiones}
         valoracionChange.intensidad = value;
         setTensionData({ ...tensionData, valoracionTensiones: valoracionChange });
     };
-    const updateCronicidad = (value : number) => {
+    const updateCronicidad = (value : string) => {
         var valoracionChange = {...tensionData.valoracionTensiones}
         valoracionChange.cronicidad = value;
         setTensionData({ ...tensionData, valoracionTensiones: valoracionChange });
     };
-    const updateIngobernabilidad = (value : number) => {
+    const updateIngobernabilidad = (value : string) => {
         var valoracionChange = {...tensionData.valoracionTensiones}
         valoracionChange.ingobernabilidad = value;
         setTensionData({ ...tensionData, valoracionTensiones: valoracionChange });
@@ -500,7 +479,9 @@ export default function CrearTension() {
         setTensionData({ ...tensionData, narrativa: narrativaTexto});
     };
     const changeBalance = () => {
-        const balanceTotalCalculo = (tensionData.valoracionTensiones.cronicidad + tensionData.valoracionTensiones.impacto + tensionData.valoracionTensiones.intensidad + tensionData.valoracionTensiones.ingobernabilidad)/4;
+        var valoracionActual = {...tensionData.valoracionTensiones}
+        var suma = parseInt(valoracionActual.cronicidad) + parseInt(valoracionActual.impacto) + parseInt(valoracionActual.ingobernabilidad) + parseInt(valoracionActual.intensidad)
+        var balanceTotalCalculo = suma/4
         setTensionData({ ...tensionData, balanceTotal: balanceTotalCalculo})
     }
     const showGenerador = (generador: Generador, index: number) => {
@@ -1266,15 +1247,16 @@ export default function CrearTension() {
                                                     <InputLabel htmlFor="Cronicidad-native-simple">Cronicidad</InputLabel>
                                                     <Select
                                                         value={tensionData.valoracionTensiones.cronicidad}
-                                                        onChange = {(val : any) => updateCronicidad(val.target.value as number)}                                                native
+                                                        onChange = {(val : any) => updateCronicidad(val.target.value as string)}                                                native
                                                         label="Cronicidad"
                                                         inputProps={{ name: 'Cronicidad-native-simple', }}
                                                     >
-                                                            <option value={1}>{1}</option>
-                                                            <option value={2}>{2}</option>
-                                                            <option value={3}>{3}</option>
-                                                            <option value={4}>{4}</option>
-                                                            <option value={5}>{5}</option>
+                                                            <option value={''}>{}</option>
+                                                            <option value={'1'}>{1}</option>
+                                                            <option value={'2'}>{2}</option>
+                                                            <option value={'3'}>{3}</option>
+                                                            <option value={'4'}>{4}</option>
+                                                            <option value={'5'}>{5}</option>
                                                     </Select>
                                                 </FormControl>          
                                             </Grid>
@@ -1283,15 +1265,16 @@ export default function CrearTension() {
                                                     <InputLabel htmlFor="Impacto-native-simple">Impacto</InputLabel>
                                                     <Select
                                                         value={tensionData.valoracionTensiones.impacto}
-                                                        onChange = {(val : any) => updateImpacto(val.target.value as number)}                                                native
+                                                        onChange = {(val : any) => updateImpacto(val.target.value as string)}                                                native
                                                         label="Impacto"
                                                         inputProps={{name:'Impacto-native-simple'}}
                                                     >
-                                                            <option value={1}>{1}</option>
-                                                            <option value={2}>{2}</option>
-                                                            <option value={3}>{3}</option>
-                                                            <option value={4}>{4}</option>
-                                                            <option value={5}>{5}</option>
+                                                            <option value={''}>{}</option>
+                                                            <option value={'1'}>{1}</option>
+                                                            <option value={'2'}>{2}</option>
+                                                            <option value={'3'}>{3}</option>
+                                                            <option value={'4'}>{4}</option>
+                                                            <option value={'5'}>{5}</option>
                                                     </Select>
                                                 </FormControl>          
                                             </Grid>
@@ -1300,15 +1283,16 @@ export default function CrearTension() {
                                                     <InputLabel htmlFor="Ingobernabilidad-native-simple">Ingobernabilidad</InputLabel>
                                                     <Select
                                                         value={tensionData.valoracionTensiones.ingobernabilidad}
-                                                        onChange = {(e : any) => updateIngobernabilidad(e.target.value as number)}                                                native
+                                                        onChange = {(e : any) => updateIngobernabilidad(e.target.value as string)}                                                native
                                                         label="Ingobernabilidad"
                                                         inputProps={{name:'Ingobernabilidad-native-simple'}}
                                                     >
-                                                            <option value={1}>{1}</option>
-                                                            <option value={2}>{2}</option>
-                                                            <option value={3}>{3}</option>
-                                                            <option value={4}>{4}</option>
-                                                            <option value={5}>{5}</option>
+                                                            <option value={''}>{}</option>
+                                                            <option value={'1'}>{1}</option>
+                                                            <option value={'2'}>{2}</option>
+                                                            <option value={'3'}>{3}</option>
+                                                            <option value={'4'}>{4}</option>
+                                                            <option value={'5'}>{5}</option>
                                                     </Select>
                                                 </FormControl>          
                                             </Grid>
@@ -1317,43 +1301,31 @@ export default function CrearTension() {
                                                     <InputLabel htmlFor="Intensidad-native-simple">Intensidad</InputLabel>
                                                     <Select
                                                         value={tensionData.valoracionTensiones.intensidad}
-                                                        onChange = {(val : any) => updateIntensidad(val.target.value as number)}                                                native
+                                                        onChange = {(val : any) => updateIntensidad(val.target.value as string)}                                                native
                                                         label="Intensidad"
                                                         inputProps={{name:'Intensidad-native-simple'}}
                                                     >
-                                                            <option value={1}>{1}</option>
-                                                            <option value={2}>{2}</option>
-                                                            <option value={3}>{3}</option>
-                                                            <option value={4}>{4}</option>
-                                                            <option value={5}>{5}</option>
+                                                            <option value={''}>{}</option>
+                                                            <option value={'1'}>{1}</option>
+                                                            <option value={'2'}>{2}</option>
+                                                            <option value={'3'}>{3}</option>
+                                                            <option value={'4'}>{4}</option>
+                                                            <option value={'5'}>{5}</option>
                                                     </Select>
                                                 </FormControl>          
                                             </Grid>
                                         </Grid>
-                                        <Grid item container sm={4} direction="row" alignItems="center" justify="center">
+                                        <Grid item container sm={6} direction="column" alignItems="center" justify="center">
                                             <Button variant="contained" onClick = {() => changeBalance()} style={{marginBottom:10}}  color="primary">
                                                 Calcular balance
                                             </Button>
-                                            <Typography  variant={"h5"} color="primary" display="block" >Balance {tensionData.balanceTotal}</Typography>
-                                            <Chart
-                                                width={100}
-                                                height={100}
-                                                chartType="Gauge"
-                                                loader={<div>Cargando indicadores...</div>}
-                                                data={['Balance',tensionData.balanceTotal]}
-                                                options={{
-                                                greenFrom:10,
-                                                greenTo:50,
-                                                redFrom: 90,
-                                                redTo: 100,
-                                                yellowFrom: 75,
-                                                yellowTo: 90,
-                                                minorTicks: 5,
-                                                }}
-                                                rootProps={{ 'data-testid': '1' }}
-                                            />
+                                            <Grid direction="column">
+                                                <Grid>
+                                                    <Typography  variant={"h5"} color="primary" display="block" >{tensionData.balanceTotal === 0 ? "" : "Balance "+tensionData.balanceTotal} </Typography>
+                                                </Grid>
+                                            </Grid>
                                         </Grid>
-                                        <Grid item sm={5}>
+                                        <Grid item sm={3}>
                                             {showNarrativa()} 
                                         </Grid>
                                     </Grid>
