@@ -3,7 +3,6 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import PerfectScrollbar from "perfect-scrollbar";
 import "perfect-scrollbar/css/perfect-scrollbar.css";
 import { makeStyles } from "@material-ui/core/styles";
-import Footer from "components/Footer/Footer.js";
 import Sidebar from "components/Sidebar/Sidebar.js";
 import CrearTension from "../views/MatrizTensiones/CrearTension.tsx";
 
@@ -78,7 +77,6 @@ export default function AdminTensiones({ ...rest }) {
   }, [mainPanel]);
   return (
     <div className={classes.wrapper}>
-      
       <Sidebar
         routes={routes}
         logoText= {<img alt="Logo" src={Logo} style={{ display: 'block', marginTop:"15%", marginBottom:"15%", maxWidth: '55%',minWidth: '45%', marginLeft:'30%',marginRight:'30%'}}/>}
