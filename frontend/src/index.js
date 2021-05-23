@@ -48,7 +48,6 @@ ReactDOM.render(
           <Route path="/tension" component={AdminTensiones} />
         </Provider>
         <Route path="/" component={MainMenu} />
-
       </ThemeProvider>
     </Switch>
   </Router>,

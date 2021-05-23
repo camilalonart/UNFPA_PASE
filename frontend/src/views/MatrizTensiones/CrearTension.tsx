@@ -498,7 +498,7 @@ export default function CrearTension() {
         setTensionData({ ...tensionData, reforzadorPrincipal: generadorNuevo });
     };
     const changeNarrativa = () => {
-        var narrativaTexto =  'NARRATIVA \n' + 'Hace' + tensionData.evento.hacecuanto !== '' ? tensionData.evento.hacecuanto : "HACE FALTA" + '. Pasa que' + tensionData.evento.quepasa !== '' ? tensionData.evento.quepasa : "HACE FALTA" + ' en ' + tensionData.evento.donde !== '' ? tensionData.evento.donde : "HACE FALTA" + ', y la cantidad es ' + tensionData.evento.cuanto !== '' ? tensionData.evento.cuanto : "HACE FALTA" + '\n Generado por ' + tensionData.generadorPrincipal.situacion !== '' ? tensionData.generadorPrincipal.situacion : "HACE FALTA" + '\n Lo cual implica que' + tensionData.implicacionPrincipal.efectos !== '' ? tensionData.implicacionPrincipal.efectos : "HACE FALTA" + '\n Se encuentra reforzado por'+ tensionData.reforzadorPrincipal.situacion !== '' ? tensionData.reforzadorPrincipal.situacion : "HACE FALTA" + '\n Y se libera cuando ' + tensionData.liberadorPrincipal.situacion !== '' ? tensionData.liberadorPrincipal.situacion : "HACE FALTA";
+        var narrativaTexto = 'Hace' + tensionData.evento.hacecuanto !== '' ? tensionData.evento.hacecuanto : "HACE FALTA" + '. Pasa que' + tensionData.evento.quepasa !== '' ? tensionData.evento.quepasa : "HACE FALTA" + ' en ' + tensionData.evento.donde !== '' ? tensionData.evento.donde : "HACE FALTA" + ', y la cantidad es ' + tensionData.evento.cuanto !== '' ? tensionData.evento.cuanto : "HACE FALTA" + '\n Generado por ' + tensionData.generadorPrincipal.situacion !== '' ? tensionData.generadorPrincipal.situacion : "HACE FALTA" + '\n Lo cual implica que' + tensionData.implicacionPrincipal.efectos !== '' ? tensionData.implicacionPrincipal.efectos : "HACE FALTA" + '\n Se encuentra reforzado por'+ tensionData.reforzadorPrincipal.situacion !== '' ? tensionData.reforzadorPrincipal.situacion : "HACE FALTA" + '\n Y se libera cuando ' + tensionData.liberadorPrincipal.situacion !== '' ? tensionData.liberadorPrincipal.situacion : "HACE FALTA";
         setTensionData({ ...tensionData, narrativa: narrativaTexto});
     };
     const changeBalance = () => {
@@ -1400,12 +1400,13 @@ export default function CrearTension() {
                             <Button size={'small'} color="secondary" variant="contained" onClick = {() => changeNarrativa()} style={{marginBottom:10}}>
                                 Refrescar narrativa
                             </Button>
+                            <Typography variant={'h6'}> NARRATIVA ACTUAL </Typography>
+                            <Typography variant={'body2'}> {tensionData.narrativa} </Typography>
                             <Typography variant={'h6'}> EDITAR NARRATIVA </Typography>
 
                             <TextareaAutosize
-                                rowsMax={4}
-                                aria-label="maximum height"
-                                placeholder="Maximum 4 rows"
+                                rowsMax={20}
+                                placeholder=""
                                 defaultValue ={tensionData.narrativa}
                                 value={tensionData.narrativa}
                                 onChange={(e : any) => { setTensionData({ ...tensionData, narrativa: e.target.value});}}
@@ -1452,7 +1453,9 @@ export default function CrearTension() {
                                     <Button style={{margin:20}} disabled={activeStep === 0} onClick={handleBack} >
                                         Atrás
                                     </Button>
-                                    {showNarrativa()}
+                                    <Paper>
+                                        {tensionData.narrativa}
+                                    </Paper>
                                 </div>
                                 ) : (
                                 <div style={{marginBottom:300}}>
