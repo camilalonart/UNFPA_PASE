@@ -5,6 +5,7 @@ import { createTension, updateTension, getTensiones } from '../../actions/tensio
 import {Dialog,Chip, Slider, Stepper, StepLabel, Step, DialogTitle, DialogActions, MenuItem, DialogContentText, Input,  DialogContent,TextField,Select,Paper,IconButton,InputLabel,Typography,FormControl,Divider,Grid,Button} from '@material-ui/core/';
 import { makeStyles } from '@material-ui/core/styles';
 
+import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import FiberManualRecordOutlinedIcon from '@material-ui/icons/FiberManualRecordOutlined';
 import FiberManualRecordTwoToneIcon from '@material-ui/icons/FiberManualRecordTwoTone';
@@ -1378,12 +1379,37 @@ export default function CrearTension() {
                             </Button>
                             <Grid direction="column">
                                 <Grid style={{margin:20}}>
-\                                   <Typography variant={'body1'}> {tensionData.balanceTotal !== 0 ? "Balance "+tensionData.balanceTotal :''} </Typography>
+                                   <Typography variant={'body1'}> {tensionData.balanceTotal !== 0 ? "Balance "+tensionData.balanceTotal :''} </Typography>
+                                </Grid>
+                                <Grid>
+                                {tensionData.balanceTotal !== 0 ? 
+                                <div>
+                                <GaugeChart id="gauge-chart5"
+                                    nrOfLevels={180}
+                                    arcsLength={[0.3, 0.5, 0.2]}
+                                    colors={['#5BE12C', '#F5CD19', '#EA4228']}
+                                    percent={tensionData.balanceTotal/5}
+                                    arcPadding={0.1}
+                                /> </div> : <Typography variant={'body1'}></Typography>
+                                }
+                                
                                 </Grid>
                             </Grid>
                         </Grid>
-                        <Grid item sm={3}>
-                            {showNarrativa()} 
+                        <Grid item sm={3} spacing={1}>
+                            <Button size={'small'} color="secondary" variant="contained" onClick = {() => changeNarrativa()} style={{marginBottom:10}}>
+                                Refrescar narrativa
+                            </Button>
+                            <Typography variant={'h6'}> EDITAR NARRATIVA </Typography>
+
+                            <TextareaAutosize
+                                rowsMax={4}
+                                aria-label="maximum height"
+                                placeholder="Maximum 4 rows"
+                                defaultValue ={tensionData.narrativa}
+                                value={tensionData.narrativa}
+                                onChange={(e : any) => { setTensionData({ ...tensionData, narrativa: e.target.value});}}
+                            />
                         </Grid>
                     </Grid>
                 
