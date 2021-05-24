@@ -234,6 +234,8 @@ def topicData(lda_model,numberOfTopics,simmilarity, data_ready, moreInsights):
     json_result = json.dumps(json_data, default=json_util.default)
     with open('../frontend/src/ModelResults/dataPerTopic.json', "w") as outfile:
         outfile.write(json_result)
+    with open('../backend/ModelResults/dataPerTopic.json', "w") as outfile:
+        outfile.write(json_result)
 #-----------------------------------------------------------------------------------------------------
 def getChord(frequency,simmilarity):
     frequency=frequency[:6]
@@ -412,11 +414,9 @@ def sankeyFileODS(odsDictWords,topicsDictWords):
         outfile.write(json_result)
 
 if __name__ == "__main__":
-    df = pd.read_pickle("./processedData.pkl")
-    print('{"success": true, "message": "se han recibido los parametros"}')
-    print('{"success": true, "message": "número de topicos '+str(numberOfTopics)+'"}')
+    df = pd.read_pickle("/Users/camilalonart/Desktop/UNFPA_PASE/ml_models/processedData.pkl")
     new_data = []
-    with open('data_ready.csv', newline='') as csvfile:
+    with open('/Users/camilalonart/Desktop/UNFPA_PASE/ml_models/data_ready.csv', newline='') as csvfile:
         spamreader = csv.reader(csvfile, delimiter=' ', quotechar='|')
         for row in spamreader:
             new_data.append(row)

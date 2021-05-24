@@ -1,15 +1,13 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 
-import { createTension, updateTension, getTensiones } from '../../actions/tensiones';
+import { createTension, updateTension } from '../../actions/tensiones';
 
-import {Dialog,Chip, Slider, Stepper, StepLabel, Step, DialogTitle, DialogActions, MenuItem, DialogContentText, Input,  DialogContent,TextField,Select,Paper,IconButton,InputLabel,Typography,FormControl,Divider,Grid,Button} from '@material-ui/core/';
+import { Stepper,StepLabel,Step,TextField,Select,Paper,IconButton,InputLabel,Typography,FormControl,Divider,Grid,Button} from '@material-ui/core/';
 import { makeStyles } from '@material-ui/core/styles';
 
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
-import FiberManualRecordOutlinedIcon from '@material-ui/icons/FiberManualRecordOutlined';
-import FiberManualRecordTwoToneIcon from '@material-ui/icons/FiberManualRecordTwoTone';
-import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
+
 import { useDispatch, RootStateOrAny, useSelector } from 'react-redux';
 
 import GaugeChart from 'react-gauge-chart'
@@ -20,8 +18,7 @@ import DimensionesLista from '../../InfoMatriz/dimensionesLista.json';
 import DimensionesGeneralesLista from '../../InfoMatriz/dimensionesG.json';
 import DimensionesEspecificasLista from '../../InfoMatriz/dimensionesEspecificas.json';
 import Competencias from '../../InfoMatriz/Competencias.json';
-import { StringLiteralLike } from 'typescript';
-import { AnyScale } from '@nivo/axes';
+
 
 export interface Generador {situacion: string, actores: string, odsPrincipal:string, metaPrincipal: string, dimensiones:string}
 export interface Implicacion {efectos: string, odsPrincipal: string, metaPrincipal: string, dimensiones:string}
@@ -68,13 +65,12 @@ export default function CrearTension() {
     const processDataMetas = (odsName: string) => {
         var metas : string[] = [];
         MetasLista.map((e) => (
-            e.ods === odsName ? metas = e.metas : metas = metas
+            e.ods === odsName ? metas = e.metas : null
         ));
         return metas;
     };
 
     const handleSubmit = async (e:any) => {
-        setCreadoDialog(true);
         e.preventDefault();
         if (currentId === 0) {
             dispatch(createTension(tensionData));

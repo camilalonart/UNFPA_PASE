@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { createBrowserHistory } from "history";
-import { Router, Route, Switch, Redirect } from "react-router-dom";
+import {Route, Switch, BrowserRouter } from "react-router-dom";
 
 // core components
 import Admin from "layouts/Admin.js";
@@ -40,7 +40,7 @@ const theme = createMuiTheme({
 });
 
 ReactDOM.render(
-  <Router history={hist}>
+  <BrowserRouter history={hist}>
     <Switch>
       <ThemeProvider theme={theme}>
         <Route path="/admin" component={Admin} />
@@ -50,6 +50,6 @@ ReactDOM.render(
         <Route path="/" component={MainMenu} />
       </ThemeProvider>
     </Switch>
-  </Router>,
+  </BrowserRouter>,
   document.getElementById("root")
 );
