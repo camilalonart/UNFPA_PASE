@@ -1,14 +1,12 @@
 import React, {useState} from 'react';
 
-import { createTension, updateTension } from '../../actions/tensiones';
+import { createTension, updateTension } from '../../API/index';
 
 import { Stepper,StepLabel,Step,TextField,Select,Paper,IconButton,InputLabel,Typography,FormControl,Divider,Grid,Button} from '@material-ui/core/';
 import { makeStyles } from '@material-ui/core/styles';
 
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
-
-import { useDispatch, RootStateOrAny, useSelector } from 'react-redux';
 
 import GaugeChart from 'react-gauge-chart'
 
@@ -48,7 +46,6 @@ export default function CrearTension() {
     const [activeStep, setActiveStep] = React.useState(0);
     const steps = getSteps();
     const [creadoDialog, setCreadoDialog] = React.useState(false);
-    const dispatch = useDispatch();
 
     function getSteps() {
         return ['Dimensiones', 'Evento', 'Generadores', 'Implicaciones','Reforzadores','Liberadores', 'Valoración'];
@@ -73,10 +70,10 @@ export default function CrearTension() {
     const handleSubmit = async (e:any) => {
         e.preventDefault();
         if (currentId === 0) {
-            dispatch(createTension(tensionData));
+            createTension(tensionData);
             clear();
         } else {
-            dispatch(updateTension(currentId, tensionData));
+            updateTension(currentId, tensionData);
             clear();
         }
       };
@@ -1394,7 +1391,7 @@ export default function CrearTension() {
                         </Grid>
                         <Grid item sm={3} spacing={1}>
                             <Button size={'small'} color="secondary" variant="contained" onClick = {() => changeNarrativa()} style={{marginBottom:10}}>
-                                Refrescar narrativa
+                                Reiniciar narrativa
                             </Button>
                             <Typography variant={'h6'}> NARRATIVA ACTUAL </Typography>
                             <Typography variant={'body2'}> {tensionData.narrativa} </Typography>

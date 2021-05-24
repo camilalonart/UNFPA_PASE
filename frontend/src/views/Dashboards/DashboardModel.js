@@ -51,7 +51,7 @@ export default function DashboardModel(props) {
       <main className={classes.content}>
         <div className={classes.toolbar} />
         {loading ? (<div>
-            <Grid container direction="column" justify="center" alignItems="center">
+            <Grid container direction="column" justify="center" alignItems="center" style ={{marginTop:200}}>
                 <Grid item container direction="row" justify="center" alignItems="center">
                     <CircularProgress />
                 </Grid>
