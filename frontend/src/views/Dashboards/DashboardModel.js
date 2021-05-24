@@ -11,6 +11,7 @@ import OdsTopicPercentageKeys from '../../ModelResults/odsTopicPercentageKeys.js
 import OdsTopicPercentage from '../../ModelResults/odsTopicPercentage.json';
 import Histogram from '../../ModelResults/histogram.json';
 import ODSSankey from '../../ModelResults/sankeyODS.json';
+import SankeyResult from '../../ModelResults/sankeyResult.json';
 
 import { ResponsiveChord } from '@nivo/chord'
 import { ResponsiveSwarmPlot } from '@nivo/swarmplot'
@@ -51,7 +52,7 @@ export default function DashboardModel(props) {
       <main className={classes.content}>
         <div className={classes.toolbar} />
         {loading ? (<div>
-            <Grid container direction="column" justify="center" alignItems="center" style ={{marginTop:200}}>
+            <Grid container direction="column" justify="center" alignItems="center" style ={{marginTop:300}}>
                 <Grid item container direction="row" justify="center" alignItems="center">
                     <CircularProgress />
                 </Grid>
@@ -230,6 +231,19 @@ export default function DashboardModel(props) {
                                     chartType="Sankey"
                                     loader={<div>Cargando Sankey...</div>}
                                     data={ODSSankey}
+                                    width={600}
+                                    height={'600px'}
+                                    />
+                                </ResponsiveContainer>
+                            </Paper>   
+                        </Grid>  
+                        <Grid item lg={6} xs={12}>
+                            <Paper style={{padding: 20, height: 850 }}>
+                                <ResponsiveContainer width="100%" height={800}>
+                                <Chart
+                                    chartType="Sankey"
+                                    loader={<div>Cargando Sankey...</div>}
+                                    data={SankeyResult}
                                     width={600}
                                     height={'600px'}
                                     />
