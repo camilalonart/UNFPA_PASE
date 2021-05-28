@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const url = 'http://localhost:5000/tensiones';
+const url = '/tensiones';
 
 export const fetchTensiones = () => axios.get(url);
 export const createTension = (newTension) => axios.post(url, newTension);
