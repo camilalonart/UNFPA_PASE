@@ -10,11 +10,6 @@ import MainMenu from "./views/MainMenu.js";
 import "assets/css/material-dashboard-react.css?v=1.9.0";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 
-import { Provider } from 'react-redux';
-import { createStore, applyMiddleware, compose } from 'redux';
-import thunk from 'redux-thunk';
-import { reducers } from './reducers';
-const store = createStore(reducers, compose(applyMiddleware(thunk)));
 
 const hist = createBrowserHistory();
 
@@ -44,9 +39,7 @@ ReactDOM.render(
     <Switch>
       <ThemeProvider theme={theme}>
         <Route path="/admin" component={Admin} />
-        <Provider store={store}>
           <Route path="/tension" component={AdminTensiones} />
-        </Provider>
         <Route path="/" component={MainMenu} />
       </ThemeProvider>
     </Switch>

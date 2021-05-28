@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 
-import { createTension, updateTension } from '../../API/index';
+import { createTension, updateTension } from '../../API/tensiones';
 
 import { Stepper,StepLabel,Step,TextField,Select,Paper,IconButton,InputLabel,Typography,FormControl,Divider,Grid,Button} from '@material-ui/core/';
 import { makeStyles } from '@material-ui/core/styles';
@@ -879,8 +879,7 @@ export default function CrearTension() {
                                 <option value={'1'}>{1}</option>
                                 <option value={'2'}>{2}</option>
                                 <option value={'3'}>{3}</option>
-                                <option value={'4'}>{4}</option>
-                                <option value={'5'}>{5}</option>
+
                         </Select>
                     </FormControl>        
                 </Paper>
@@ -1017,8 +1016,7 @@ export default function CrearTension() {
                                 <option value={'1'}>{1}</option>
                                 <option value={'2'}>{2}</option>
                                 <option value={'3'}>{3}</option>
-                                <option value={'4'}>{4}</option>
-                                <option value={'5'}>{5}</option>
+
                         </Select>
                     </FormControl>                        
                 </Paper>
@@ -1306,8 +1304,7 @@ export default function CrearTension() {
                                             <option value={'1'}>{1}</option>
                                             <option value={'2'}>{2}</option>
                                             <option value={'3'}>{3}</option>
-                                            <option value={'4'}>{4}</option>
-                                            <option value={'5'}>{5}</option>
+
                                     </Select>
                                 </FormControl>          
                             </Grid>
@@ -1324,8 +1321,7 @@ export default function CrearTension() {
                                             <option value={'1'}>{1}</option>
                                             <option value={'2'}>{2}</option>
                                             <option value={'3'}>{3}</option>
-                                            <option value={'4'}>{4}</option>
-                                            <option value={'5'}>{5}</option>
+
                                     </Select>
                                 </FormControl>          
                             </Grid>
@@ -1342,8 +1338,7 @@ export default function CrearTension() {
                                             <option value={'1'}>{1}</option>
                                             <option value={'2'}>{2}</option>
                                             <option value={'3'}>{3}</option>
-                                            <option value={'4'}>{4}</option>
-                                            <option value={'5'}>{5}</option>
+
                                     </Select>
                                 </FormControl>          
                             </Grid>
@@ -1360,8 +1355,7 @@ export default function CrearTension() {
                                             <option value={'1'}>{1}</option>
                                             <option value={'2'}>{2}</option>
                                             <option value={'3'}>{3}</option>
-                                            <option value={'4'}>{4}</option>
-                                            <option value={'5'}>{5}</option>
+
                                     </Select>
                                 </FormControl>          
                             </Grid>
@@ -1381,7 +1375,7 @@ export default function CrearTension() {
                                     nrOfLevels={180}
                                     arcsLength={[0.3, 0.5, 0.2]}
                                     colors={['#5BE12C', '#F5CD19', '#EA4228']}
-                                    percent={tensionData.balanceTotal/5}
+                                    percent={tensionData.balanceTotal/3}
                                     arcPadding={0.1}
                                 /> </div> : <Typography variant={'body1'}></Typography>
                                 }
