@@ -1,14 +1,14 @@
 import React, {useState} from 'react';
 
-import { createTension, updateTension } from '../../API/tensiones';
-
 import { Stepper,StepLabel,Step,TextField,Select,Paper,IconButton,InputLabel,Typography,FormControl,Divider,Grid,Button} from '@material-ui/core/';
-import { makeStyles } from '@material-ui/core/styles';
 
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 
 import GaugeChart from 'react-gauge-chart'
+
+import { useDispatch, RootStateOrAny, useSelector } from 'react-redux';
+import { createTension, updateTension } from '../../actions/tensiones';
 
 import MetasLista from '../../InfoMatriz/metas.json';
 import ODSLista from '../../InfoMatriz/ods.json';
@@ -16,7 +16,6 @@ import DimensionesLista from '../../InfoMatriz/dimensionesLista.json';
 import DimensionesGeneralesLista from '../../InfoMatriz/dimensionesG.json';
 import DimensionesEspecificasLista from '../../InfoMatriz/dimensionesEspecificas.json';
 import Competencias from '../../InfoMatriz/Competencias.json';
-
 
 export interface Generador {situacion: string, actores: string, odsPrincipal:string, metaPrincipal: string, dimensiones:string}
 export interface Implicacion {efectos: string, odsPrincipal: string, metaPrincipal: string, dimensiones:string}
@@ -27,25 +26,14 @@ export interface Liberador {situacion: string, odsPrincipal:string, metaPrincipa
 export interface ValoracionTensiones {intensidad: string, impacto: string, cronicidad: string, ingobernabilidad: string}
 export interface Evento {quepasa: string, cuanto: string, donde: string, hacecuanto: string, ods: string, meta: string}
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-      width: '100%',
-    },
-    backButton: {
-      marginRight: theme.spacing(1),
-    },
-    instructions: {
-      marginTop: theme.spacing(1),
-      marginBottom: theme.spacing(1),
-    },
-}));
+
 
 export default function CrearTension() {
-    const [currentId, setCurrentId] = useState(0);
-    const classes = useStyles();
     const [activeStep, setActiveStep] = React.useState(0);
+    const [currentId, setCurrentId] = useState(0);
+    const dispatch = useDispatch();
+
     const steps = getSteps();
-    const [creadoDialog, setCreadoDialog] = React.useState(false);
 
     function getSteps() {
         return ['Dimensiones', 'Evento', 'Generadores', 'Implicaciones','Reforzadores','Liberadores', 'Valoración'];
@@ -66,18 +54,6 @@ export default function CrearTension() {
         ));
         return metas;
     };
-
-    const handleSubmit = async (e:any) => {
-        e.preventDefault();
-        if (currentId === 0) {
-            createTension(tensionData);
-            clear();
-        } else {
-            updateTension(currentId, tensionData);
-            clear();
-        }
-      };
-
     const processDataDimensionEspecifica = (dimensionGeneral: string) => {
         var dimensiones : string[] = [];
         DimensionesEspecificasLista.map((e) => (
@@ -109,6 +85,17 @@ export default function CrearTension() {
         }));
     };
     
+    const handleSubmit = async (e:any) => {
+        e.preventDefault();
+        if (currentId === 0) {
+            dispatch(createTension(tensionData));
+            clear();
+        } else {
+            dispatch(updateTension(currentId, tensionData));
+            clear();
+        }
+      };
+
     const DimensionesElementos = processDataDimensionElemento();
 
     const [tensionData, setTensionData] = useState({ 
@@ -131,7 +118,6 @@ export default function CrearTension() {
 
     const clear = () => {
         setActiveStep(0)
-        setCurrentId(0);
         setTensionData({
             dimension: '',
             dimensionEspecifica: '',
@@ -161,15 +147,6 @@ export default function CrearTension() {
         setTensionData({ ...tensionData, dimensionEspecifica: e.target.value });
     };
     
-    const MenuProps = {
-        PaperProps: {
-          style: {
-            maxHeight: 48 * 4.5 + 8,
-            width: 250,
-          },
-        },
-      };
-    
     const addGenerador = () => {
         setTensionData(tensionData => {
           const generadorLista: Generador[] = [...tensionData.generadores];
@@ -197,26 +174,6 @@ export default function CrearTension() {
           implicacionesLista.push({efectos: '', odsPrincipal: '', metaPrincipal: '',  dimensiones:' '});
           return {...tensionData, implicaciones: implicacionesLista }
         });
-    };
-    const updateImpacto = (value: string) => {
-        var valorado = {...tensionData.valoracionTensiones}
-        valorado.impacto = value;
-        setTensionData({ ...tensionData, valoracionTensiones: valorado });
-    };
-    const updateIntensidad = (value : string) => {
-        var valoracionChange = {...tensionData.valoracionTensiones}
-        valoracionChange.intensidad = value;
-        setTensionData({ ...tensionData, valoracionTensiones: valoracionChange });
-    };
-    const updateCronicidad = (value : string) => {
-        var valoracionChange = {...tensionData.valoracionTensiones}
-        valoracionChange.cronicidad = value;
-        setTensionData({ ...tensionData, valoracionTensiones: valoracionChange });
-    };
-    const updateIngobernabilidad = (value : string) => {
-        var valoracionChange = {...tensionData.valoracionTensiones}
-        valoracionChange.ingobernabilidad = value;
-        setTensionData({ ...tensionData, valoracionTensiones: valoracionChange });
     };
     const deleteGenerador = (index: number) => {
         setTensionData(tensionData => {
@@ -246,6 +203,27 @@ export default function CrearTension() {
             return {...tensionData, implicaciones: implicacion }
         });
     };
+    const updateImpacto = (value: string) => {
+        var valorado = {...tensionData.valoracionTensiones}
+        valorado.impacto = value;
+        setTensionData({ ...tensionData, valoracionTensiones: valorado });
+    };
+    const updateIntensidad = (value : string) => {
+        var valoracionChange = {...tensionData.valoracionTensiones}
+        valoracionChange.intensidad = value;
+        setTensionData({ ...tensionData, valoracionTensiones: valoracionChange });
+    };
+    const updateCronicidad = (value : string) => {
+        var valoracionChange = {...tensionData.valoracionTensiones}
+        valoracionChange.cronicidad = value;
+        setTensionData({ ...tensionData, valoracionTensiones: valoracionChange });
+    };
+    const updateIngobernabilidad = (value : string) => {
+        var valoracionChange = {...tensionData.valoracionTensiones}
+        valoracionChange.ingobernabilidad = value;
+        setTensionData({ ...tensionData, valoracionTensiones: valoracionChange });
+    };
+    
     const changeEventoOds = (value: string) => {
         var eventoChange = {...tensionData.evento}
         eventoChange.ods = value;
@@ -276,6 +254,7 @@ export default function CrearTension() {
         eventoChange.hacecuanto = value;
         setTensionData({ ...tensionData, evento: eventoChange });
     };   
+
     const changeGeneradorPrincipalSituacion = (value: string) => {
         var generadorNuevo = {...tensionData.generadorPrincipal}
         generadorNuevo.situacion = value;
@@ -1098,8 +1077,6 @@ export default function CrearTension() {
                                 </Select>
                             </FormControl>
                         </Grid>
-                        
-
                         <Grid item sm={12} style = {{margin:10}}>
                             <FormControl style = {{minWidth:800, maxWidth:800}} variant="outlined" >
                                 <InputLabel htmlFor="outlined-age-native-simple">Competencia</InputLabel>
@@ -1460,7 +1437,7 @@ export default function CrearTension() {
                                         </Grid>
                                     </Grid> 
                                     
-                                    <Typography className={classes.instructions}>{getStepContent(activeStep)}</Typography>
+                                    <Typography>{getStepContent(activeStep)}</Typography>
                                     <br/>
                                     
                                 </div>

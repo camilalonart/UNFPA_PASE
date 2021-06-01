@@ -3,9 +3,9 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import { CssBaseline,Hidden, Grid, Paper, Typography } from '@material-ui/core/';
 
-import { PieChart, Pie, Cell } from "recharts";
-
-import {
+import { PieChart,
+  Pie,
+  Cell,
   ResponsiveContainer,
   Bar,
   XAxis,
@@ -41,8 +41,6 @@ import ODS16 from '../../images/SDGs/16.png';
 import ODS17 from '../../images/SDGs/17.png'; 
 
 const SDGIcons = [ODS1,ODS2,ODS3,ODS4,ODS5,ODS6,ODS7,ODS8,ODS9,ODS10,ODS11,ODS12,ODS13,ODS14,ODS15,ODS16,ODS17]
-
-
 const useStyles = makeStyles(styles);
 
 export default function DashboardModel(props) {

@@ -14,7 +14,7 @@ app.use('/tensiones', tensionRoutes);
 app.use('/lda', ldaRoutes);
 
 
-const CONNECTION_URL = 'mongodb+srv://admin:admin@cluster0.wtdy3.mongodb.net/MatrizTensionesDB?retryWrites=true&w=majority';
+const CONNECTION_URL = process.env.MONGO_URI;
 const PORT = process.env.PORT|| 5000;
 
 

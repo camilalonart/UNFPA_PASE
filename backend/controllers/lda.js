@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const spawn = require('child_process').spawn;
-const model = '/Users/camilalonart/Desktop/UNFPA_PASE/ml_models/Model.py';
+const model = process.env.MODELURL;
 
 router.get = async (req, res) => { 
   let numberOfTopics = req.query.numberOfTopics;

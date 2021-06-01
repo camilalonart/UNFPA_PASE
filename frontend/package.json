@@ -17,6 +17,7 @@
     "axios": "^0.21.1",
     "chartist": "0.10.1",
     "classnames": "2.2.6",
+    "firebase": "^8.6.3",
     "history": "4.10.1",
     "material-ui-rating": "^4.2.0",
     "moment": "^2.29.1",

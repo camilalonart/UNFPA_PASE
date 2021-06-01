@@ -21,19 +21,15 @@ import Logo from '../images/Home/UnfpaLogo.png';
 let ps;
 
 const useStyles = makeStyles(styles);
-
 export default function Admin({ ...rest }) {
   const classes = useStyles();
   const mainPanel = React.createRef();
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [parameters, setParameters] = React.useState({});
-
   const executeModel = (modelParameters) => {
     console.log(modelParameters);
-
     setParameters(modelParameters);
   }
-
   const routes = [
     {
       path: "/model",

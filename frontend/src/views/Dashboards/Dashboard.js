@@ -1,6 +1,5 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-
 import { Divider,  CssBaseline, Hidden, Grid, Paper, Typography } from '@material-ui/core/';
 
 import ODS1 from '../../images/SDGs/1.png';
@@ -25,23 +24,8 @@ import EncuestasCount from '../../images/Dashboard/encuestasCount.png';
 import Anio from '../../images/Dashboard/anio.png'; 
 
 import ModelResults from '../../ModelResults/generalResult.json';
-import { PieChart, Pie, Cell } from "recharts";
 
-import {
-  LineChart,
-  ResponsiveContainer,
-  Line,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  BarChart,
-  Brush,
-} from "recharts";
-
-
+import { LineChart, Line, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, BarChart, Brush, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
 
 import styles from "assets/jss/material-dashboard-react/views/dashboardStyle.js";
 
@@ -49,7 +33,6 @@ const useStyles = makeStyles(styles);
 
 export default function GeneralDashboardModel(props) {
   const classes = useStyles();
-
   const processDataGenero = () => {
     return ModelResults.sexo.map( (e) => ({
       name: e.sexoNombre,
@@ -132,8 +115,6 @@ export default function GeneralDashboardModel(props) {
   return (
     <div className={classes.root}>
       <CssBaseline />
-      
-      
       <main className={classes.content}>
         <div className={classes.toolbar} />
             <Typography variant="h6" style = {{margin: 20}}  align="center" >Datos Generales</Typography> 

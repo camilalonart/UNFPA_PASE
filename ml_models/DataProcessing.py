@@ -90,7 +90,6 @@ def process(df):
 
     return process_words(data_words)  # processed Text Data!
 if __name__ == "__main__":
-    numberOfTopics = 10
     dotenv.load_dotenv(".env")
     df = getData()
     df = preprocess(df)
